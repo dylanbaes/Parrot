@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Parrot</string>
+
+    //string references for the server URL
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+    <string name="back4app_app_id">VriZQf0GN7Z5SVTs5FXDG7MolNlrQ4wlL5BM9ArE</string>
+    <string name="back4app_client_key">TLyT3Y3c1OZKs530Zo3h1JGffRRif48bl7tV99Im</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="Password">Password</string>
+    <string name="Email">Email</string>
+    <string name="Login">Login</string>
+    <string name="Register">Register</string>
+    <string name="Forgot_Password">Forgot Password</string>
+    <string name="Logout">Logout</string>
+
+
 </resources>
