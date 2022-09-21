@@ -18,6 +18,15 @@
         android:theme="@style/Theme.Parrot"
         tools:targetApi="31">
         <activity
+            android:name=".create_account"
+            android:exported="false"
+            android:label="@string/title_activity_create_account"
+            android:theme="@style/Theme.Parrot.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true" />
         <activity
