@@ -27,11 +27,11 @@ public class create_account extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        ActivityCreateAccountBinding binding;
+        //ActivityCreateAccountBinding binding;
         super.onCreate(savedInstanceState);
 
-        binding = ActivityCreateAccountBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        //binding = ActivityCreateAccountBinding.inflate(getLayoutInflater());
+        //setContentView(binding.getRoot());
 
         setContentView(R.layout.activity_create_account);
 
@@ -39,14 +39,14 @@ public class create_account extends AppCompatActivity {
         LastName = findViewById(R.id.lastname);
         Email = findViewById(R.id.email);
         Password = findViewById(R.id.password);
+        userCreateAccount = findViewById(R.id.createaccountbtn);
 
         userCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseUser user = new ParseUser();
-
                 if(!FirstName.getText().toString().isEmpty() && !LastName.getText().toString().isEmpty() && !Email.getText().toString().isEmpty() && !Password.getText().toString().isEmpty())
                 {
+                    ParseUser user = new ParseUser();
                     user.setEmail(Email.getText().toString());
                     user.setPassword(Password.getText().toString());
 
