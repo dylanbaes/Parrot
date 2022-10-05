@@ -40,7 +40,7 @@ public class create_account extends AppCompatActivity {
         Password = findViewById(R.id.password);
         userCreateAccount = findViewById(R.id.createaccountbtn);
 
-       userCreateAccount.setOnClickListener(new View.OnClickListener() {
+        userCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!Email.getText().toString().isEmpty() && !Password.getText().toString().isEmpty()){
@@ -58,6 +58,10 @@ public class create_account extends AppCompatActivity {
                             }
                         }
                     });
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Missing Attributes", Toast.LENGTH_LONG).show();
                 }
             }
         });
