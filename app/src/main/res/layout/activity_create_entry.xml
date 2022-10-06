@@ -23,14 +23,14 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp">
+
         <TextView
             android:id="@+id/create_entry_text_view_subscription_name"
-            android:layout_alignParentStart="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_marginRight="10dp"
-            android:text="Subscription Name"
-            android:textSize="20sp"/>
+            android:text="Subscription Name" />
         <EditText
             android:id="@+id/create_entry_edit_text_subscription_name"
             android:layout_toRightOf="@id/create_entry_text_view_subscription_name"
@@ -54,8 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:text="Description"
-            android:textSize="20sp"/>
+            android:text="Description" />
         <EditText
             android:id="@+id/create_entry_edit_text_description"
             android:layout_toRightOf="@id/create_entry_text_view_description"
@@ -210,7 +209,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_marginRight="10dp"
-            android:text="End Date"
+            android:text="Notification Date"
             android:textSize="15sp" />
 
         <EditText
@@ -248,19 +247,19 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp">
-        <Button
-            android:id="@+id/create_entry_cancel_submission"
-            android:layout_alignParentStart="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Submit"/>
+
         <Button
             android:id="@+id/create_entry_submit_submission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="Submit" />
+        <Button
+            android:id="@+id/create_entry_cancel_submission"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:text="Cancel" />
     </RelativeLayout>
-
 
 </RelativeLayout>
