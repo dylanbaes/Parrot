@@ -52,7 +52,7 @@ public class create_account extends AppCompatActivity {
                 if(!FirstName.getText().toString().isEmpty() && !LastName.getText().toString().isEmpty() && !userEmailEditText.getText().toString().isEmpty() && !userPasswordEditText.getText().toString().isEmpty())
                 {
                     ParseUser user = new ParseUser();
-                    user.setEmail(userEmailEditText.getText().toString());
+                    user.setUsername(userEmailEditText.getText().toString());
                     user.setPassword(userPasswordEditText.getText().toString());
 
                     user.signUpInBackground(new SignUpCallback() {
