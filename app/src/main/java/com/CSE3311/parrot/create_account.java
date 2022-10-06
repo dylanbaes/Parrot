@@ -24,7 +24,7 @@ public class create_account extends AppCompatActivity {
     EditText userEmailEditText;
     EditText userPasswordEditText;
     Button userCreateAccount;
-    Button cancelbutton;
+    Button cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class create_account extends AppCompatActivity {
         userEmailEditText = findViewById(R.id.email);
         userPasswordEditText = findViewById(R.id.password);
         userCreateAccount = findViewById(R.id.createaccountbtn);
-        cancelbutton = findViewById(R.id.cancelbtn);
+        cancelButton = findViewById(R.id.cancelbtn);
 
         //When the create account button is pressed
         userCreateAccount.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +76,7 @@ public class create_account extends AppCompatActivity {
             }
         });
 
-        cancelbutton.setOnClickListener(new View.OnClickListener() {
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

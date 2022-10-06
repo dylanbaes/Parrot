@@ -109,7 +109,7 @@
         android:layout_below="@id/confirmpass"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="95dp"
+        android:layout_marginTop="99dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="@color/teal_200"
