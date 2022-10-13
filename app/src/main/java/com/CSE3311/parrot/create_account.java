@@ -2,41 +2,87 @@ package com.CSE3311.parrot;
 
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.CSE3311.parrot.databinding.ActivityCreateAccountBinding;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
+
+import java.text.ParseException;
 
 public class create_account extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityCreateAccountBinding binding;
+    EditText FirstName;
+    EditText LastName;
+    EditText userEmailEditText;
+    EditText userPasswordEditText;
+    Button userCreateAccount;
+    Button cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //ActivityCreateAccountBinding binding;
         super.onCreate(savedInstanceState);
 
-        binding = ActivityCreateAccountBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        //binding = ActivityCreateAccountBinding.inflate(getLayoutInflater());
+        //setContentView(binding.getRoot());
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_create_account);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        
-    }
+        setContentView(R.layout.activity_create_account);
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_create_account);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+        //Getting input for each edit text field
+        FirstName = findViewById(R.id.firstname);
+        LastName = findViewById(R.id.lastname);
+        userEmailEditText = findViewById(R.id.email);
+        userPasswordEditText = findViewById(R.id.password);
+        userCreateAccount = findViewById(R.id.createaccountbtn);
+        cancelButton = findViewById(R.id.cancelbtn);
+
+        //When the create account button is pressed
+        userCreateAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!FirstName.getText().toString().isEmpty() && !LastName.getText().toString().isEmpty() && !userEmailEditText.getText().toString().isEmpty() && !userPasswordEditText.getText().toString().isEmpty())
+                {
+                    ParseUser user = new ParseUser();
+                    user.setUsername(userEmailEditText.getText().toString());
+                    user.setPassword(userPasswordEditText.getText().toString());
+
+                    user.signUpInBackground(new SignUpCallback() {
+                        @Override
+                        public void done(com.parse.ParseException e) {
+                            if(e==null){
+                                Toast.makeText(getApplicationContext(),"Registration Successful!",Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(create_account.this, MainActivity.class));
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"Registration Failed!",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Missing Attributes", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Go back to the login screen
+                startActivity(new Intent(create_account.this, Login.class));
+            }
+        });
     }
 }

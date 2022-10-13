@@ -2,11 +2,14 @@ package com.CSE3311.parrot;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
@@ -34,46 +37,57 @@ public class Login  extends AppCompatActivity{
         forgotPasswordButton=findViewById(R.id.forgotPasswordButton);
         registerButton=findViewById(R.id.registerButton);
 
+        StringBuilder validErrorMessage = new StringBuilder("Invalid email or password. Please try again.");
+
         loginButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                if (!userEmailEditText.getText().toString().isEmpty() && !userPasswordEditText.getText().toString().isEmpty()){
-                    ParseUser.logInInBackground(userEmailEditText.getText().toString(), userPasswordEditText.getText().toString(), new LogInCallback() {
-                        @Override
-                        public void done(ParseUser user, ParseException e) {
-                            if(user!=null){
-                                Toast.makeText(getApplicationContext(), "Login Successful!",Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(Login.this, MainActivity.class));
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(),"Login Failed! Try Again or Register!",Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+
+                // Check for empty text fields
+                if(userEmailEditText.getText().toString().isEmpty() || userPasswordEditText.getText().toString().isEmpty()) {
+                    Toast.makeText(Login.this, validErrorMessage, Toast.LENGTH_LONG).show();
+                    return;
                 }
+
+                // Utilize progress dialog
+                final ProgressDialog dlg = new ProgressDialog(Login.this);
+                dlg.setTitle("Attempting to log in.");
+                dlg.show();
+
+                // Reset errors
+                userEmailEditText.setError(null);
+                userPasswordEditText.setError(null);
+
+                // Attempt to log in with given credentials
+                ParseUser.logInInBackground(userEmailEditText.getText().toString(), userPasswordEditText.getText().toString(), new LogInCallback() {
+                    @Override
+                    public void done(ParseUser user, ParseException e) {
+                        dlg.dismiss();
+                        if(user!=null){
+                            // If a user that matches credentials is found, show successful log in and navigate to main activity
+                            Toast.makeText(getApplicationContext(), "Login Successful!",Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(Login.this, MainActivity.class));
+                        }
+                        else{
+                            // If no users with matching credentials, show error message.
+                            ParseUser.logOut();
+                            Toast.makeText(getApplicationContext(),validErrorMessage,Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
             }
         });
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!userEmailEditText.getText().toString().isEmpty() && !userPasswordEditText.getText().toString().isEmpty()){
-                    ParseUser user = new ParseUser();
-                    user.setUsername(userEmailEditText.getText().toString());
-                    user.setPassword(userPasswordEditText.getText().toString());
-                    user.signUpInBackground(new SignUpCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e==null){
-                                Toast.makeText(getApplicationContext(),"Registration Successful!",Toast.LENGTH_LONG).show();
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(),"Registration Failed!",Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-                }
+
+                //Switch to the create account screen
+                startActivity(new Intent(Login.this, create_account.class));
             }
+
         });
     }
 }
