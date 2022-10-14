@@ -84,23 +84,8 @@ public class Login  extends AppCompatActivity{
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*if (!userEmailEditText.getText().toString().isEmpty() && !userPasswordEditText.getText().toString().isEmpty()){
-                    ParseUser user = new ParseUser();
-                    user.setUsername(userEmailEditText.getText().toString());
-                    user.setPassword(userPasswordEditText.getText().toString());
-                    user.signUpInBackground(new SignUpCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e==null){
-                                Toast.makeText(getApplicationContext(),"Registration Successful!",Toast.LENGTH_LONG).show();
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(),"Registration Failed!",Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-                }*/
 
+                //Switch to the create account screen
                 startActivity(new Intent(Login.this, create_account.class));
             }
 
