@@ -85,7 +85,7 @@ public class Login  extends AppCompatActivity{
             public void onClick(View view) {
 
                 //Switch to the create account screen
-                startActivity(new Intent(Login.this, create_account.class));
+                startActivity(new Intent(Login.this, Registration.class));
             }
 
         });

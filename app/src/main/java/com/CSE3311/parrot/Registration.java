@@ -17,10 +17,16 @@ import com.parse.SignUpCallback;
 
 import java.text.ParseException;
 
-public class create_account extends AppCompatActivity {
+public class Registration extends AppCompatActivity {
 
-    EditText FirstName;
-    EditText LastName;
+    private String fName;
+    private String lName;
+    private String email;
+    private String password;
+    private String confirmPassword;
+
+    EditText firstName;
+    EditText lastName;
     EditText userEmailEditText;
     EditText userPasswordEditText;
     Button userCreateAccount;
@@ -38,8 +44,8 @@ public class create_account extends AppCompatActivity {
         setContentView(R.layout.activity_create_account);
 
         //Getting input for each edit text field
-        FirstName = findViewById(R.id.firstname);
-        LastName = findViewById(R.id.lastname);
+        firstName = findViewById(R.id.firstname);
+        lastName = findViewById(R.id.lastname);
         userEmailEditText = findViewById(R.id.email);
         userPasswordEditText = findViewById(R.id.password);
         userCreateAccount = findViewById(R.id.createaccountbtn);
@@ -49,6 +55,9 @@ public class create_account extends AppCompatActivity {
         userCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                assert (!firstName.getText().toString().isEmpty()): "Error Logs";
+                assert (!lastName.getText())
+
                 if(!FirstName.getText().toString().isEmpty() && !LastName.getText().toString().isEmpty() && !userEmailEditText.getText().toString().isEmpty() && !userPasswordEditText.getText().toString().isEmpty())
                 {
                     ParseUser user = new ParseUser();
@@ -60,7 +69,7 @@ public class create_account extends AppCompatActivity {
                         public void done(com.parse.ParseException e) {
                             if(e==null){
                                 Toast.makeText(getApplicationContext(),"Registration Successful!",Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(create_account.this, MainActivity.class));
+                                startActivity(new Intent(Registration.this, MainActivity.class));
                             }
                             else{
                                 Toast.makeText(getApplicationContext(),"Registration Failed!",Toast.LENGTH_LONG).show();
@@ -79,10 +88,10 @@ public class create_account extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //Go back to the login screen
-                startActivity(new Intent(create_account.this, Login.class));
+                startActivity(new Intent(Registration.this, Login.class));
             }
         });
     }
+
 }

@@ -21,7 +21,7 @@
             android:name=".activity_create_entry"
             android:exported="false" />
         <activity
-            android:name=".create_account"
+            android:name=".Registration"
             android:exported="false"
             android:label="@string/title_activity_create_account"
             android:theme="@style/Theme.Parrot.NoActionBar">
