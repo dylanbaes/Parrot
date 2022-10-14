@@ -28,6 +28,7 @@ public class Login  extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ParseInstallation.getCurrentInstallation().saveInBackground();
@@ -38,10 +39,6 @@ public class Login  extends AppCompatActivity{
         registerButton=findViewById(R.id.registerButton);
 
         StringBuilder validErrorMessage = new StringBuilder("Invalid email or password. Please try again.");
-
-
-
-
 
         loginButton.setOnClickListener(new View.OnClickListener() {
 
