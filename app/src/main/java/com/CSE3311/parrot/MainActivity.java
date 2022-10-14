@@ -15,15 +15,22 @@ import com.parse.ParseUser;
 public class MainActivity extends AppCompatActivity {
 
     Button logoutButton;
-    Button userCreateButton;
+    Button createEntryButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         logoutButton=findViewById(R.id.logoutButton);
-        userCreateButton=findViewById(R.id.createaccountbtn);
+        createEntryButton=findViewById(R.id.createEntryButton);
 
+
+        createEntryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, activity_create_entry.class));
+            }
+        });
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

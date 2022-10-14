@@ -210,7 +210,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_marginRight="10dp"
-            android:text="End Date"
+            android:text="Category"
             android:textSize="15sp" />
 
         <EditText
@@ -236,7 +236,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="Uplaod image"/>
+            android:text="Upload image"/>
 
     </RelativeLayout>
 
@@ -248,18 +248,22 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp">
+
         <Button
             android:id="@+id/create_entry_cancel_submission"
-            android:layout_alignParentStart="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit"/>
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:text="Cancel" />
+
         <Button
             android:id="@+id/create_entry_submit_submission"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="Cancel" />
+            android:layout_marginEnd="-5dp"
+            android:text="Submit" />
     </RelativeLayout>
 
 
