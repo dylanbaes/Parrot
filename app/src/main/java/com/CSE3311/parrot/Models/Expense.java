@@ -1,9 +1,13 @@
 package com.CSE3311.parrot.Models;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 import java.util.Date;
 import java.util.UUID;
 
-public class Expense {
+@ParseClassName("Expense")
+public class Expense extends ParseObject {
     private final String userId;
     private String subscriptionName;
     private String description;
@@ -12,7 +16,6 @@ public class Expense {
     private Date startDate;
     private Date endDate;
     private Date notificationDate;
-
 
     public Expense(String userId){
         /*
@@ -81,7 +84,4 @@ public class Expense {
     public void setNotificationDate(Date notificationDate){
         this.notificationDate = notificationDate;
     }
-
-
-
 }

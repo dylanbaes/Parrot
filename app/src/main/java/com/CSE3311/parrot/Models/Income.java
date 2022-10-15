@@ -1,9 +1,13 @@
 package com.CSE3311.parrot.Models;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 import java.util.Date;
 import java.util.UUID;
 
-public class Income {
+@ParseClassName("Income")
+public class Income extends ParseObject {
     private final String userId;
     private String incomeName; // part-time, full-time ...
     private String description;

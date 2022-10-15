@@ -1,5 +1,6 @@
 package com.CSE3311.parrot;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class Registration extends AppCompatActivity {
     private String email;
     private String password;
     private String confirmPassword;
+    private ProgressDialog dlg;
 
     EditText firstName;
     EditText lastName;
@@ -54,11 +56,16 @@ public class Registration extends AppCompatActivity {
         userCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                assert (!firstName.getText().toString().isEmpty()): "Error Log: First Name not passed on ";
-                assert (!lastName.getText().toString().isEmpty()): "Error Log: "
+                try {
+                    dlg = new ProgressDialog(Registration.this);
+                    dlg.setTitle("Registering your account, please wait!");
+                    dlg.show();
 
-                if(!FirstName.getText().toString().isEmpty() && !LastName.getText().toString().isEmpty() && !userEmailEditText.getText().toString().isEmpty() && !userPasswordEditText.getText().toString().isEmpty())
-                {
+                    assert (!firstName.getText().toString().isEmpty()) : "Error Log: First Name not passed on";
+                    assert (!lastName.getText().toString().isEmpty()) : "Error Log: Last Name not passed on";
+                    assert (!userEmailEditText.getText().toString().isEmpty()) : "Error Log: Email Not Passed on";
+                    assert (!userPasswordEditText.getText().toString().isEmpty()) : "Error Log: Password not passed on";
+
                     ParseUser user = new ParseUser();
                     user.setUsername(userEmailEditText.getText().toString());
                     user.setPassword(userPasswordEditText.getText().toString());
@@ -66,29 +73,28 @@ public class Registration extends AppCompatActivity {
                     user.signUpInBackground(new SignUpCallback() {
                         @Override
                         public void done(com.parse.ParseException e) {
-                            if(e==null){
-                                Toast.makeText(getApplicationContext(),"Registration Successful!",Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(Registration.this, MainActivity.class));
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(),"Registration Failed!",Toast.LENGTH_LONG).show();
-                            }
+                            assert (e==null):"Error Log: Registration Failed";
+                            dlg.dismiss();
+                            Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(Registration.this, MainActivity.class));
+                            finish();
                         }
                     });
-
                 }
-                else
+                catch (Exception e)
                 {
-                    Toast.makeText(getApplicationContext(), "Missing Attributes", Toast.LENGTH_LONG).show();
+                    dlg.dismiss();
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
+
             }
         });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Go back to the login screen
                 startActivity(new Intent(Registration.this, Login.class));
+                finish();
             }
         });
     }

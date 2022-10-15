@@ -18,77 +18,67 @@ import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-public class Login  extends AppCompatActivity{
+public class Login extends AppCompatActivity {
+    private EditText userEmailEditText;
+    private EditText userPasswordEditText;
 
-    EditText userEmailEditText;
-    EditText userPasswordEditText;
-    Button loginButton;
-    Button forgotPasswordButton;
-    Button registerButton;
+    private Button loginButton;
+    private Button forgotPasswordButton;
+    private Button registerButton;
+    private ProgressDialog dlg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_login);
+            ParseInstallation.getCurrentInstallation().saveInBackground();
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ParseInstallation.getCurrentInstallation().saveInBackground();
-        userEmailEditText=findViewById(R.id.userEmailEditText);
-        userPasswordEditText=findViewById(R.id.userPasswordEditText);
-        loginButton=findViewById(R.id.loginButton);
-        forgotPasswordButton=findViewById(R.id.forgotPasswordButton);
-        registerButton=findViewById(R.id.registerButton);
+            // check if there already exists a session
+            if (ParseUser.getCurrentUser()!=null){
+                startActivity(new Intent(Login.this,MainActivity.class));
+                finish();
+            }
 
-        StringBuilder validErrorMessage = new StringBuilder("Invalid email or password. Please try again.");
+            userEmailEditText = findViewById(R.id.userEmailEditText);
+            userPasswordEditText = findViewById(R.id.userPasswordEditText);
+            loginButton = findViewById(R.id.loginButton);
+            forgotPasswordButton = findViewById(R.id.forgotPasswordButton);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+            registerButton = findViewById(R.id.registerButton);
 
-            @Override
-            public void onClick(View view) {
-
+            loginButton.setOnClickListener(view -> {
                 // Check for empty text fields
-                if(userEmailEditText.getText().toString().isEmpty() || userPasswordEditText.getText().toString().isEmpty()) {
-                    Toast.makeText(Login.this, validErrorMessage, Toast.LENGTH_LONG).show();
-                    return;
-                }
+                assert !userEmailEditText.getText().toString().isEmpty() : "Error Log: Invalid Email. Please try again!";
+                assert !userPasswordEditText.getText().toString().isEmpty() : "Error Log: Invalid Password. Please try again!";
 
                 // Utilize progress dialog
-                final ProgressDialog dlg = new ProgressDialog(Login.this);
+                dlg = new ProgressDialog(Login.this);
                 dlg.setTitle("Attempting to log in.");
                 dlg.show();
-
-                // Reset errors
-                userEmailEditText.setError(null);
-                userPasswordEditText.setError(null);
 
                 // Attempt to log in with given credentials
                 ParseUser.logInInBackground(userEmailEditText.getText().toString(), userPasswordEditText.getText().toString(), new LogInCallback() {
                     @Override
                     public void done(ParseUser user, ParseException e) {
+                        assert user != null : "Error Log: Invalid email and password";
                         dlg.dismiss();
-                        if(user!=null){
-                            // If a user that matches credentials is found, show successful log in and navigate to main activity
-                            Toast.makeText(getApplicationContext(), "Login Successful!",Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(Login.this, MainActivity.class));
-                        }
-                        else{
-                            // If no users with matching credentials, show error message.
-                            ParseUser.logOut();
-                            Toast.makeText(getApplicationContext(),validErrorMessage,Toast.LENGTH_LONG).show();
-                        }
+                        startActivity(new Intent(Login.this, MainActivity.class));
+                        finish();
                     }
                 });
 
-            }
-        });
-
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                //Switch to the create account screen
+            });
+            registerButton.setOnClickListener(view -> {
                 startActivity(new Intent(Login.this, Registration.class));
-            }
+                finish();
+            });
 
-        });
+        } catch (Exception e) {
+            userEmailEditText.setError(null);
+            userPasswordEditText.setError(null);
+            dlg.dismiss();
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }

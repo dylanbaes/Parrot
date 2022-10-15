@@ -1,9 +1,13 @@
 package com.CSE3311.parrot.Models;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class User {
+@ParseClassName("User")
+public class User extends ParseObject {
     private final String userId;
     private String email;
     private String fName;
