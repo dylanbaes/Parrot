@@ -22,9 +22,14 @@
             android:exported="false" />
         <activity
             android:name=".create_account"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_create_account"
             android:theme="@style/Theme.Parrot.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -35,11 +40,13 @@
         <activity
             android:name=".Login"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".Setting"
+            android:exported="true">
+
         </activity>
 
         <meta-data

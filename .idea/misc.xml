@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/Android Studio Projects/Parrot/app/src/main/res/layout/activity_create_entry.xml" value="0.136" />
+        <entry key="..\:/Projects/Android Studio Projects/Parrot/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Projects/Android Studio Projects/Parrot/app/src/main/res/layout/activity_setting.xml" value="0.16302083333333334" />
+        <entry key="..\:/Projects/Android Studio Projects/Parrot/app/src/main/res/menu/bottom_navigation.xml" value="0.11197916666666667" />
+        <entry key="..\:/Projects/Android Studio Projects/Parrot/app/src/main/res/menu/bottom_navigation_setting.xml" value="0.16302083333333334" />
         <entry key="..\:/Users/noahc/CSE 3311 Project/app/src/main/res/layout/activity_create_account.xml" value="0.176" />
         <entry key="..\:/Users/noahc/CSE 3311 Project/app/src/main/res/layout/activity_create_entry.xml" value="0.1933876811594203" />
         <entry key="..\:/Users/noahc/CSE 3311 Project/app/src/main/res/layout/activity_main.xml" value="0.1933876811594203" />
