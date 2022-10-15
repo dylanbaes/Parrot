@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.CSE3311.parrot.databinding.ActivityCreateAccountBinding;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
