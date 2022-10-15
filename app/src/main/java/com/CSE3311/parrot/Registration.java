@@ -56,7 +56,7 @@ public class Registration extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 assert (!firstName.getText().toString().isEmpty()): "Error Log: First Name not passed on ";
-                assert (!lastName.getText().toString().isEmpty()):
+                assert (!lastName.getText().toString().isEmpty()): "Error Log: "
 
                 if(!FirstName.getText().toString().isEmpty() && !LastName.getText().toString().isEmpty() && !userEmailEditText.getText().toString().isEmpty() && !userPasswordEditText.getText().toString().isEmpty())
                 {
