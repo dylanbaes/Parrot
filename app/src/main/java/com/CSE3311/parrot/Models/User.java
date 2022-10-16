@@ -24,10 +24,7 @@ import java.util.Map;
 public class User extends ParseObject {
 
     public User() {
-    }
-
-    public User(String userId) {
-        put("userId", userId);
+        super();
     }
 
     public String getUserName() {

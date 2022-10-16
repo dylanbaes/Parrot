@@ -1,270 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <TextView
-        android:id="@+id/create_entry_text_view_create_subscription_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create Subscriptions"
-        android:textAlignment="center"
-        android:layout_marginTop="20dp"
-        android:textSize="25sp"
-        android:textFontWeight="800"/>
+    android:fillViewport="true">
 
-    <RelativeLayout
-        android:id="@+id/create_entry_row_insert_subscription_name"
-        android:layout_below="@id/create_entry_text_view_create_subscription_header"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".CreateEntry">
+
+
         <TextView
-            android:id="@+id/create_entry_text_view_subscription_name"
-            android:layout_alignParentStart="true"
-            android:layout_width="wrap_content"
+            android:id="@+id/create_entry_text_view_create_entry_header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="Subscription Name"
-            android:textSize="20sp"/>
+            android:layout_marginTop="20dp"
+            android:text="Create Entry"
+            android:textAlignment="center"
+            android:textFontWeight="800"
+            android:textSize="25sp" />
+
+
+        <Spinner
+            android:id="@+id/create_entry_edit_text_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_entry_text_view_create_entry_header"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@android:drawable/btn_dropdown"
+            android:hint="Category"
+            android:spinnerMode="dropdown"/>
+
         <EditText
-            android:id="@+id/create_entry_edit_text_subscription_name"
-            android:layout_toRightOf="@id/create_entry_text_view_subscription_name"
-            android:layout_width="wrap_content"
+            android:id="@+id/create_entry_edit_text_category_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/create_entry_edit_text_category"
             android:layout_alignParentEnd="true"
-            />
-    </RelativeLayout>
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="Subscription Name" />
 
-    <RelativeLayout
-        android:id="@+id/create_entry_row_insert_subscription_description"
-        android:layout_below="@id/create_entry_row_insert_subscription_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp">
-        <TextView
-            android:id="@+id/create_entry_text_view_description"
-            android:layout_alignParentStart="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="Description"
-            android:textSize="20sp"/>
         <EditText
             android:id="@+id/create_entry_edit_text_description"
-            android:layout_toRightOf="@id/create_entry_text_view_description"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/create_entry_edit_text_category_name"
             android:layout_alignParentEnd="true"
-            />
-    </RelativeLayout>
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="Description (Optional)" />
 
-    <RelativeLayout
-        android:id="@+id/create_entry_row_select_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/create_entry_row_insert_subscription_description"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp">
-
-        <TextView
-            android:id="@+id/create_entry_text_view_start_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginRight="10dp"
-            android:text="Start Date"
-            android:textSize="15sp" />
-
-        <EditText
-            android:id="@+id/create_entry_edit_text_start_date"
+        <LinearLayout
+            android:id="@+id/create_entry_row_select_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/create_entry_text_view_start_date" />
+            android:layout_below="@id/create_entry_edit_text_description"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp">
 
-    </RelativeLayout>
+            <EditText
+                android:id="@+id/create_entry_edit_text_start_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:hint="Start Date" />
 
-    <RelativeLayout
-        android:id="@+id/create_entry_row_select_end_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/create_entry_row_select_date"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp">
+            <EditText
+                android:id="@+id/create_entry_edit_text_end_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:hint="End Date" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/create_entry_text_view_end_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginRight="10dp"
-            android:text="End Date"
-            android:textSize="15sp" />
-
-        <EditText
-            android:id="@+id/create_entry_edit_text_end_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/create_entry_text_view_end_date" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/create_entry_row_cost"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/create_entry_row_select_end_date"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp">
-
-        <TextView
-            android:id="@+id/create_entry_text_view_cost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginRight="10dp"
-            android:text="Cost"
-            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/create_entry_edit_text_cost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/create_entry_text_view_cost" />
+            android:layout_below="@id/create_entry_row_select_date"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="Cost" />
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/create_entry_row_select_payment_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/create_entry_row_cost"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp">
-
-        <TextView
-            android:id="@+id/create_entry_text_view_payment_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginRight="10dp"
-            android:text="Payment Type"
-            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/create_entry_edit_text_payment_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/create_entry_text_view_payment_type" />
+            android:layout_below="@id/create_entry_edit_text_cost"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="Payment Type" />
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/create_entry_row_select_subscription_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/create_entry_row_select_payment_type"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp">
-
-        <TextView
-            android:id="@+id/create_entry_text_view_subscription_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginRight="10dp"
-            android:text="Subscription Type"
-            android:textSize="15sp" />
-
-        <EditText
+        <Spinner
             android:id="@+id/create_entry_edit_text_subscription_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/create_entry_text_view_subscription_type" />
+            android:layout_below="@id/create_entry_edit_text_payment_type"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown" />
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/create_entry_row_select_notification_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/create_entry_row_select_subscription_type"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp">
-
-        <TextView
-            android:id="@+id/create_entry_text_view_notification_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginRight="10dp"
-            android:text="Category"
-            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/create_entry_edit_text_notification_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/create_entry_text_view_notification_date" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/create_entry_row_upload_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/create_entry_row_select_notification_date"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp">
+            android:layout_below="@id/create_entry_edit_text_subscription_type"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="Set a Notification Date" />
 
         <Button
             android:id="@+id/create_entry_button_upload_image"
-            android:layout_alignParentStart="true"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/create_entry_edit_text_notification_date"
+            android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:text="Upload image"/>
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Upload Icon" />
+
+
+        <LinearLayout
+            android:id="@+id/create_entry_row_submit_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_entry_button_upload_image"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp">
+
+            <Button
+                android:id="@+id/create_entry_cancel_submission"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_weight="1"
+                android:text="Cancel" />
+
+            <Button
+                android:id="@+id/create_entry_submit_submission"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_weight="1"
+                android:text="Submit" />
+        </LinearLayout>
+
 
     </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/create_entry_row_submit_content"
-        android:layout_below="@id/create_entry_row_upload_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp">
-
-        <Button
-            android:id="@+id/create_entry_cancel_submission"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="0dp"
-            android:text="Cancel" />
-
-        <Button
-            android:id="@+id/create_entry_submit_submission"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="-5dp"
-            android:text="Submit" />
-    </RelativeLayout>
-
-
-</RelativeLayout>
+</ScrollView>

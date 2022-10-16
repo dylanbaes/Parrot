@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.CSE3311.parrot.Models.User;
+import com.parse.Parse;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -75,8 +78,22 @@ public class Registration extends AppCompatActivity {
                     user.signUpInBackground(new SignUpCallback() {
                         @Override
                         public void done(com.parse.ParseException e) {
-                            assert (e == null) : "Error Log: Registration Failed";
+                            if (e!=null){
+                                System.out.println(e.getMessage());
+                                throw new AssertionError("\"Error Log: Registration Failed\"");
+                            }
                             dlg.dismiss();
+
+                            ParseObject.registerSubclass(User.class);
+                            // User userInfo = ParseObject.createWithoutData(User.class,user.getObjectId());
+                            User userInfo = new User();
+                            userInfo.setUserName(userEmailEditText.getText().toString());
+                            userInfo.setlName(lastName.getText().toString());
+                            userInfo.setfName(firstName.getText().toString());
+                            userInfo.setEmail(userEmailEditText.getText().toString());
+
+
+
                             Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_LONG).show();
                             startActivity(new Intent(Registration.this, MainActivity.class));
                             finish();

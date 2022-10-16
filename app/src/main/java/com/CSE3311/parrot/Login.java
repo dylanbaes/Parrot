@@ -61,7 +61,9 @@ public class Login extends AppCompatActivity {
                 ParseUser.logInInBackground(userEmailEditText.getText().toString(), userPasswordEditText.getText().toString(), new LogInCallback() {
                     @Override
                     public void done(ParseUser user, ParseException e) {
-                        assert user != null : "Error Log: Invalid email and password";
+                        if (e!=null || user==null){
+                            throw new AssertionError("\"Error Log: Registration Failed\"");
+                        }
                         dlg.dismiss();
                         startActivity(new Intent(Login.this, MainActivity.class));
                         finish();
@@ -74,7 +76,7 @@ public class Login extends AppCompatActivity {
                 finish();
             });
 
-        } catch (Exception e) {
+        } catch (AssertionError e) {
             userEmailEditText.setError(null);
             userPasswordEditText.setError(null);
             dlg.dismiss();

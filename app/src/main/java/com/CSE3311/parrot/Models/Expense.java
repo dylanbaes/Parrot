@@ -7,10 +7,10 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Expense {
-    private String subscriptionName;
+    private String categoryName;
     private String description;
     private String paymentType;
-    private String subscriptionType;
+    private String categoryType;
     private final String uuid;
     private Date startDate;
     private Date endDate;
@@ -20,12 +20,12 @@ public class Expense {
         this.uuid = UUID.randomUUID().toString();
     }
 
-    public String getSubscriptionName() {
-        return this.subscriptionName;
+    public String getCategoryName() {
+        return this.categoryName;
     }
 
-    public String getSubscriptionType() {
-        return this.subscriptionType;
+    public String getCategoryType() {
+        return this.categoryType;
     }
 
     public String getDescription() {
@@ -48,8 +48,8 @@ public class Expense {
         return this.notificationDate;
     }
 
-    public void setSubscription(String subscriptionName) {
-        this.subscriptionName = subscriptionName;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public void setDescription(String description) {
@@ -60,8 +60,8 @@ public class Expense {
         this.paymentType = paymentType;
     }
 
-    public void setSubscriptionType(String subscriptionType) {
-        this.subscriptionType = subscriptionType;
+    public void setCategoryType(String categoryType) {
+        this.categoryType = categoryType;
     }
 
     public void setStartDate(Date startDate) {
