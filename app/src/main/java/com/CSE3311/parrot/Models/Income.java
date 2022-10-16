@@ -6,22 +6,16 @@ import com.parse.ParseObject;
 import java.util.Date;
 import java.util.UUID;
 
-@ParseClassName("Income")
-public class Income extends ParseObject {
-    private final String userId;
+public class Income {
     private String incomeName; // part-time, full-time ...
     private String description;
     private String paymentAmount;
     private String paymentType; // biweekly or monthly
     private Date paymentDate;
     private Date notificationDate;
+    private String uuid;
 
-    public Income(String userId){
-        /*
-         *   userId = UserId of the signed-in user
-         */
-        this.userId = userId;
-        UUID objectId = UUID.randomUUID();
+    public Income(){
     }
 
     public Date getNotificationDate() {
@@ -70,5 +64,13 @@ public class Income extends ParseObject {
 
     public void setIncomeName(String incomeName) {
         this.incomeName = incomeName;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

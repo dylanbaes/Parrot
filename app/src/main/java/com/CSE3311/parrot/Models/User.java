@@ -1,89 +1,124 @@
 package com.CSE3311.parrot.Models;
 
+import android.app.ProgressDialog;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
+import org.json.JSONArray;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-@ParseClassName("User")
+@ParseClassName("UserInfo")
 public class User extends ParseObject {
-    private final String userId;
-    private String email;
-    private String fName;
-    private String lName;
-    private String userName;
 
-    private LinkedList<Expense> expenseLists;
-    private LinkedList<Income> incomeLists;
+    public User() {
+    }
 
-    public User(String userId){
-        this.userId = userId;
-        this.expenseLists = new LinkedList<>();
-        this.incomeLists = new LinkedList<>();
+    public User(String userId) {
+        put("userId", userId);
     }
 
     public String getUserName() {
-        return userName;
+        return getString("userName");
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        put("userName", userName);
+        this.saveInBackground();
     }
 
     public String getlName() {
-        return lName;
+        return getString("lName");
     }
 
     public void setlName(String lName) {
-        this.lName = lName;
+        put("lName", lName);
+        this.saveInBackground();
     }
 
     public String getfName() {
-        return fName;
+        return getString("fName");
     }
 
     public void setfName(String fName) {
-        this.fName = fName;
+        put("fName", fName);
+        this.saveInBackground();
     }
 
     public String getEmail() {
-        return email;
+        return getString("email");
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        put("email", email);
+        this.saveInBackground();
     }
 
-    public LinkedList<Income> getIncomeLists() {
-        return this.incomeLists;
+    public ArrayList<Income> getIncomeLists() {
+        List<HashMap> rawIncomes = getList("income");
+        ArrayList<Income> incomes = new ArrayList<>();
+        Gson gson = new Gson();
+        assert rawIncomes != null:"Error Log: No Income Data";
+        for (HashMap rawIncome : rawIncomes) {
+            incomes.add(gson.fromJson(gson.toJson(rawIncome), Income.class));
+        }
+        return incomes;
     }
 
-    public void addIncome(Income e){
-        this.incomeLists.add(e);
+    public void addIncome(Income inc) {
+        Gson gson = new Gson();
+        this.add("incomes", gson.fromJson(gson.toJson(inc), Map.class));
+        this.saveInBackground();
     }
 
-    public void deleteIncome(int index){
-        this.incomeLists.remove(index);
+    public ArrayList<Income> deleteIncome(ArrayList<Income> objects) {
+        Gson gson = new Gson();
+        ArrayList<HashMap> toDelete = new ArrayList<>();
+        for (Income income :objects){
+            toDelete.add(gson.fromJson(gson.toJson(income),HashMap.class));
+        }
+        this.removeAll("income",toDelete);
+        this.saveInBackground();
+        return this.getIncomeLists();
     }
 
-    public void setIncomeLists(LinkedList<Income> incomeLists) {
-        this.incomeLists = incomeLists;
+    public ArrayList<Expense> getExpenseLists() {
+        List<HashMap> rawExpenses = getList("expenses");
+        ArrayList<Expense> expenses = new ArrayList<>();
+        Gson gson = new Gson();
+        assert rawExpenses != null:"Error Log: No Expense Data";
+        for (HashMap rawExpense : rawExpenses) {
+            expenses.add(gson.fromJson(gson.toJson(rawExpenses), Expense.class));
+        }
+        return expenses;
     }
 
-    public LinkedList<Expense> getExpenseLists() {
-        return expenseLists;
-    }
-    public void addExpense(Expense e){
-        this.expenseLists.add(e);
-    }
-
-    public void deleteExpense(int index){
-        this.expenseLists.remove(index);
+    public void addExpense(Expense expense) {
+        Gson gson = new Gson();
+        this.add("expenses", gson.fromJson(gson.toJson(expense), Map.class));
+        this.saveInBackground();
     }
 
-    public void setExpenseLists(LinkedList<Expense> expenseLists) {
-        this.expenseLists= expenseLists;
+    public ArrayList<Expense> deleteExpense(ArrayList<Expense> objects) {
+        Gson gson = new Gson();
+        ArrayList<HashMap> toDelete = new ArrayList<>();
+        for (Expense expense :objects){
+            toDelete.add(gson.fromJson(gson.toJson(expense),HashMap.class));
+        }
+        this.removeAll("expense",toDelete);
+        this.saveInBackground();
+        return this.getExpenseLists();
     }
-
 }

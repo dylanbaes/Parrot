@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -70,19 +71,18 @@ public class Registration extends AppCompatActivity {
                     user.setUsername(userEmailEditText.getText().toString());
                     user.setPassword(userPasswordEditText.getText().toString());
 
+
                     user.signUpInBackground(new SignUpCallback() {
                         @Override
                         public void done(com.parse.ParseException e) {
-                            assert (e==null):"Error Log: Registration Failed";
+                            assert (e == null) : "Error Log: Registration Failed";
                             dlg.dismiss();
                             Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_LONG).show();
                             startActivity(new Intent(Registration.this, MainActivity.class));
                             finish();
                         }
                     });
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     dlg.dismiss();
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
