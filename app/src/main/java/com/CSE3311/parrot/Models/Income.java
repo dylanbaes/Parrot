@@ -11,26 +11,26 @@ public class Income {
     private String description;
     private String paymentAmount;
     private String paymentType; // biweekly or monthly
-    private Date paymentDate;
-    private Date notificationDate;
+    private String paymentDate;
+    private String notificationDate;
     private String uuid;
 
     public Income(){
     }
 
-    public Date getNotificationDate() {
+    public String getNotificationDate() {
         return notificationDate;
     }
 
-    public void setNotificationDate(Date notificationDate) {
+    public void setNotificationDate(String notificationDate) {
         this.notificationDate = notificationDate;
     }
 
-    public Date getPaymentDate() {
+    public String getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(Date paymentDate) {
+    public void setPaymentDate(String paymentDate) {
         this.paymentDate = paymentDate;
     }
 

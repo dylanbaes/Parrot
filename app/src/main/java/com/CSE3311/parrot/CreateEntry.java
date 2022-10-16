@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import com.CSE3311.parrot.Models.Expense;
+import com.CSE3311.parrot.Models.Income;
 import com.CSE3311.parrot.Models.User;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -249,20 +250,28 @@ public class CreateEntry extends AppCompatActivity {
             public void onClick(View view) {
 
                 ParseObject.registerSubclass(User.class);
-                if (category.getSelectedItem().equals("Subscription")) {
-                    Expense subscription = new Expense();
-                    subscription.setCategoryType("Subscription");
-                    subscription.setCategoryName(categoryName.getText().toString());
-                    subscription.setDescription(description.getText().toString());
-                    subscription.setStartDate(startDate.getText().toString());
-                    subscription.setEndDate(endDate.getText().toString());
-                    subscription.setCost(cost.getText().toString());
-                    subscription.setPaymentType(paymentType.getText().toString());
-                    subscription.setNotificationType(subscriptionType.getSelectedItem().toString());
-                    subscription.setNotificationDate(notificationDate.getText().toString());
-                    userInfo.addExpense(subscription);
+                if (category.getSelectedItem().equals("Income")) {
+                    Income income = new Income();
+                    income.setIncomeName(categoryName.getText().toString());
+                    income.setDescription(description.getText().toString());
+                    income.setPaymentDate(startDate.getText().toString());
+                    income.setPaymentAmount(cost.getText().toString());
+                    income.setPaymentType(subscriptionType.getSelectedItem().toString());
+                    income.setNotificationDate(notificationDate.getText().toString());
+                    userInfo.addIncome(income);
+                } else {
+                    Expense expense = new Expense();
+                    expense.setCategoryType(category.getSelectedItem().toString());
+                    expense.setCategoryName(categoryName.getText().toString());
+                    expense.setDescription(description.getText().toString());
+                    expense.setStartDate(startDate.getText().toString());
+                    expense.setEndDate(endDate.getText().toString());
+                    expense.setCost(cost.getText().toString());
+                    expense.setPaymentType(paymentType.getText().toString());
+                    expense.setNotificationType(subscriptionType.getSelectedItem().toString());
+                    expense.setNotificationDate(notificationDate.getText().toString());
+                    userInfo.addExpense(expense);
                 }
-
 
                 startActivity(new Intent(CreateEntry.this, MainActivity.class));
             }
