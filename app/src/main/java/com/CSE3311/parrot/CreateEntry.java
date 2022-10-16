@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import com.CSE3311.parrot.Models.Expense;
 import com.CSE3311.parrot.Models.User;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -31,6 +33,7 @@ import java.util.Calendar;
 
 public class CreateEntry extends AppCompatActivity {
     private ParseUser user;
+    private User userInfo;
 
     private Spinner category;
     private EditText categoryName;
@@ -47,17 +50,18 @@ public class CreateEntry extends AppCompatActivity {
 
     private Button uploadImage, createEntry, cancelEntry;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_entry);
+        Bundle extra = getIntent().getExtras();
 
         user = ParseUser.getCurrentUser();
+        userInfo = (User) extra.get("userInfo");
 
         // instantiate all the objects
         // spinner default value is Subscription
-        category = (Spinner) findViewById(R.id.create_entry_edit_text_category );
+        category = (Spinner) findViewById(R.id.create_entry_edit_text_category);
         categoryName = (EditText) findViewById(R.id.create_entry_edit_text_category_name);
         description = (EditText) findViewById(R.id.create_entry_edit_text_description);
         startDate = (EditText) findViewById(R.id.create_entry_edit_text_start_date);
@@ -70,8 +74,8 @@ public class CreateEntry extends AppCompatActivity {
         createEntry = (Button) findViewById(R.id.create_entry_submit_submission);
         cancelEntry = (Button) findViewById(R.id.create_entry_cancel_submission);
 
-        String[] categories = {"Subscription","Bills","Investments","Income"};
-        ArrayAdapter<String> selectCategories = new ArrayAdapter(this, android.R.layout.simple_list_item_1,categories);
+        String[] categories = {"Subscription", "Bills", "Investments", "Income"};
+        ArrayAdapter<String> selectCategories = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categories);
         selectCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category.setAdapter(selectCategories);
         category.setSelection(0);
@@ -79,7 +83,7 @@ public class CreateEntry extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if (parent.getItemAtPosition(position).equals("Income")){
+                if (parent.getItemAtPosition(position).equals("Income")) {
                     categoryName.setHint("Income Source");
 
                     endDate.setVisibility(View.GONE);
@@ -167,16 +171,16 @@ public class CreateEntry extends AppCompatActivity {
             }
         });
 
-        String[] notificationType = {"Daily","Weekly","Bi-Weekly","Monthly"};
-        ArrayAdapter<String> selectNotificationType = new ArrayAdapter(this, android.R.layout.simple_list_item_1,notificationType);
+        String[] notificationType = {"Daily", "Weekly", "Bi-Weekly", "Monthly"};
+        ArrayAdapter<String> selectNotificationType = new ArrayAdapter(this, android.R.layout.simple_list_item_1, notificationType);
         selectNotificationType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subscriptionType.setAdapter(selectNotificationType);
         subscriptionType.setSelection(0);
         subscriptionType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                notificationDate.setHint("Set a "+parent.getItemAtPosition((position)) +" Notification Date");
-                if (parent.getItemAtPosition(position).equals("Daily")){
+                notificationDate.setHint("Set a " + parent.getItemAtPosition((position)) + " Notification Date");
+                if (parent.getItemAtPosition(position).equals("Daily")) {
                     notificationDate.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -191,7 +195,7 @@ public class CreateEntry extends AppCompatActivity {
                                                               int minute) {
                                             notificationDate.setText(hourOfDay + ":" + minute);
                                         }
-                                    },hour, minute, false);
+                                    }, hour, minute, false);
 
                             notificationTimeDialog.show();
                         }
@@ -211,21 +215,19 @@ public class CreateEntry extends AppCompatActivity {
                                         @SuppressLint("SetTextI18n")
                                         @Override
                                         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                            notificationDate.setText((monthOfYear + 1) + "/" +dayOfMonth + "/" +  year);
+                                            notificationDate.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
                                         }
                                     }, year, month, day);
 
                             if (subscriptionType.getSelectedItem().equals("Weekly")) {
                                 notificationDateDialog.setTitle("Please Select the day for a reminder");
                                 notificationDateDialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
-                                notificationDateDialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis()+518400000);
-                            }
-                            else if (subscriptionType.getSelectedItem().equals("Bi-Weekly")) {
+                                notificationDateDialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis() + 518400000);
+                            } else if (subscriptionType.getSelectedItem().equals("Bi-Weekly")) {
                                 notificationDateDialog.setTitle("Please Select the date for a reminder");
                                 notificationDateDialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
                                 notificationDateDialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis() + 1123200000);
-                            }
-                            else if (subscriptionType.getSelectedItem().equals("Monthly")) {
+                            } else if (subscriptionType.getSelectedItem().equals("Monthly")) {
                                 notificationDateDialog.setTitle("Please Select the date for a reminder");
                             }
                             notificationDateDialog.show();
@@ -242,21 +244,29 @@ public class CreateEntry extends AppCompatActivity {
         });
 
 
-
         createEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 ParseObject.registerSubclass(User.class);
-
+                if (category.getSelectedItem().equals("Subscription")) {
+                    Expense subscription = new Expense();
+                    subscription.setCategoryType("Subscription");
+                    subscription.setCategoryName(categoryName.getText().toString());
+                    subscription.setDescription(description.getText().toString());
+                    subscription.setStartDate(startDate.getText().toString());
+                    subscription.setEndDate(endDate.getText().toString());
+                    subscription.setCost(cost.getText().toString());
+                    subscription.setPaymentType(paymentType.getText().toString());
+                    subscription.setNotificationType(subscriptionType.getSelectedItem().toString());
+                    subscription.setNotificationDate(notificationDate.getText().toString());
+                    userInfo.addExpense(subscription);
+                }
 
 
                 startActivity(new Intent(CreateEntry.this, MainActivity.class));
             }
         });
-
-
-
 
 
     }

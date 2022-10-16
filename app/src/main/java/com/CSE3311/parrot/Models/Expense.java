@@ -12,9 +12,11 @@ public class Expense {
     private String paymentType;
     private String categoryType;
     private final String uuid;
-    private Date startDate;
-    private Date endDate;
-    private Date notificationDate;
+    private String startDate;
+    private String endDate;
+    private String notificationType;
+    private String notificationDate;
+    private String cost;
 
     public Expense() {
         this.uuid = UUID.randomUUID().toString();
@@ -36,15 +38,15 @@ public class Expense {
         return this.paymentType;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return this.startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return this.endDate;
     }
 
-    public Date getNotificationDate() {
+    public String getNotificationDate() {
         return this.notificationDate;
     }
 
@@ -64,19 +66,35 @@ public class Expense {
         this.categoryType = categoryType;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
-    public void setNotificationDate(Date notificationDate) {
+    public void setNotificationDate(String notificationDate) {
         this.notificationDate = notificationDate;
     }
 
     public String getUuid() {
         return uuid;
+    }
+
+    public String getCost() {
+        return cost;
+    }
+
+    public void setCost(String cost) {
+        this.cost = cost;
+    }
+
+    public String getNotificationType() {
+        return notificationType;
+    }
+
+    public void setNotificationType(String notificationType) {
+        this.notificationType = notificationType;
     }
 }
