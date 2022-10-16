@@ -2,9 +2,11 @@ package com.CSE3311.parrot;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +27,22 @@ public class create_account extends AppCompatActivity {
     Button userCreateAccount;
     Button cancelButton;
 
+    private void showAlert(String title, String message, boolean error)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(create_account.this).setTitle(title).setMessage(message).setPositiveButton("Ok", (dialog, which) -> {
+            dialog.cancel();
+
+            if (!error)
+            {
+                Intent intent = new Intent(create_account.this, Login.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+        AlertDialog ok = builder.create();
+        ok.show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,37 +62,41 @@ public class create_account extends AppCompatActivity {
         userCreateAccount = findViewById(R.id.createaccountbtn);
         cancelButton = findViewById(R.id.cancelbtn);
 
-        //When the create account button is pressed
+        //Function for when the button is pressed
         userCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!FirstName.getText().toString().isEmpty() && !LastName.getText().toString().isEmpty() && !userEmailEditText.getText().toString().isEmpty() && !userPasswordEditText.getText().toString().isEmpty())
-                {
+                //If all instances are filled up
+                if (!FirstName.getText().toString().isEmpty() && !LastName.getText().toString().isEmpty() && !userEmailEditText.getText().toString().isEmpty() && !userPasswordEditText.getText().toString().isEmpty()) {
+                    //Set the email and password
                     ParseUser user = new ParseUser();
                     user.setUsername(userEmailEditText.getText().toString());
                     user.setPassword(userPasswordEditText.getText().toString());
+                    user.setEmail(userEmailEditText.getText().toString());
 
+                    //Apply the email and password
                     user.signUpInBackground(new SignUpCallback() {
                         @Override
                         public void done(com.parse.ParseException e) {
-                            if(e==null){
-                                Toast.makeText(getApplicationContext(),"Registration Successful!",Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(create_account.this, MainActivity.class));
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(),"Registration Failed!",Toast.LENGTH_LONG).show();
+                            if (e == null) {
+                                //Toast.makeText(getApplicationContext(), "Registration Successful!" + "\n"  + "Please verify your email.", Toast.LENGTH_LONG).show();
+                                //startActivity(new Intent(create_account.this, Login.class));
+
+                                showAlert("Verify Email", "Please verify you email before logging in.", false);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Registration Failed!", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
 
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getApplicationContext(), "Missing Attributes", Toast.LENGTH_LONG).show();
                 }
             }
+
         });
 
+        //When the cancel button is pressed
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

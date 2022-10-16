@@ -1,5 +1,6 @@
 package com.CSE3311.parrot;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -25,6 +26,22 @@ public class Login  extends AppCompatActivity{
     Button loginButton;
     Button forgotPasswordButton;
     Button registerButton;
+
+    private void showAlert(String title, String message, boolean error)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this).setTitle(title).setMessage(message).setPositiveButton("Ok", (dialog, which) -> {
+            dialog.cancel();
+
+            if (!error)
+            {
+                Intent intent = new Intent(Login.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+        AlertDialog ok = builder.create();
+        ok.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +90,9 @@ public class Login  extends AppCompatActivity{
                         else{
                             // If no users with matching credentials, show error message.
                             ParseUser.logOut();
-                            Toast.makeText(getApplicationContext(),validErrorMessage,Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(),validErrorMessage,Toast.LENGTH_LONG).show();
+
+                            showAlert("Login failed", "Email not verified. Please try again.", true);
                         }
                     }
                 });
