@@ -44,6 +44,8 @@ dependencies {
 
     //adding the latest version of Parse Android SDK to the app
     implementation 'com.github.parse-community.Parse-SDK-Android:parse:4.1.0'
+    // Adding MPAndroidChart:v3.1.0 for the pie chart implementation
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
 
 ext {
