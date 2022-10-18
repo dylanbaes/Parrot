@@ -49,17 +49,19 @@ public class MainActivity extends AppCompatActivity {
 
         ParseObject.registerSubclass(User.class);
         ParseQuery query = new ParseQuery(User.class);
-        query.whereEqualTo("userName",ParseUser.getCurrentUser().getUsername());
-        query.getFirstInBackground(new GetCallback<User>() {
-            public void done(User userInformation, ParseException e) {
-                if (e == null) {
-                    userInfo = userInformation;
-                    userName.setText(userInfo.getEmail());
-                } else {
-                    userInfo = null;
+        if (ParseUser.getCurrentUser().isAuthenticated()) {
+            query.whereEqualTo("userName", ParseUser.getCurrentUser().getUsername());
+            query.getFirstInBackground(new GetCallback<User>() {
+                public void done(User userInformation, ParseException e) {
+                    if (e == null) {
+                        userInfo = userInformation;
+                        userName.setText(userInfo.getEmail());
+                    } else {
+                        userInfo = null;
+                    }
                 }
-            }
-        });
+            });
+        }
 
         createEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,12 +82,13 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()){
 
                     case R.id.notification:
+                    case R.id.update:
                         return true;
                     case R.id.create:
-                        startActivity(new Intent(MainActivity.this, activity_create_entry.class));
+                        Intent createEntryIntent = new Intent(MainActivity.this, CreateEntry.class);
+                        createEntryIntent.putExtra("userInfo",userInfo);
+                        startActivity(createEntryIntent);
                         overridePendingTransition(0,0);
-                        return true;
-                    case R.id.update:
                         return true;
                     case R.id.setting:
                         startActivity(new Intent(MainActivity.this, Setting.class));

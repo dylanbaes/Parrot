@@ -28,6 +28,7 @@ public class Setting extends AppCompatActivity {
             public void onClick(View view) {
                 ParseUser.logOut();
                 startActivity(new Intent(Setting.this, Login.class));
+                finish();
             }
         });
 

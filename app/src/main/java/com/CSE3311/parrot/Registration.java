@@ -1,5 +1,6 @@
 package com.CSE3311.parrot;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
@@ -36,6 +37,20 @@ public class Registration extends AppCompatActivity {
     EditText userPasswordEditText;
     Button userCreateAccount;
     Button cancelButton;
+
+    private void showAlert(String title, String message, boolean error) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Registration.this).setTitle(title).setMessage(message).setPositiveButton("Ok", (dialog, which) -> {
+            dialog.cancel();
+            if (!error) {
+                Intent intent = new Intent(Registration.this, Login.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+        AlertDialog ok = builder.create();
+        ok.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +93,8 @@ public class Registration extends AppCompatActivity {
                     user.signUpInBackground(new SignUpCallback() {
                         @Override
                         public void done(com.parse.ParseException e) {
-                            if (e!=null){
-                                System.out.println(e.getMessage());
+                            if (e != null) {
+                                Log.d("ERROR",e.getMessage());
                                 throw new AssertionError("\"Error Log: Registration Failed\"");
                             }
                             dlg.dismiss();
@@ -91,12 +106,9 @@ public class Registration extends AppCompatActivity {
                             userInfo.setlName(lastName.getText().toString());
                             userInfo.setfName(firstName.getText().toString());
                             userInfo.setEmail(userEmailEditText.getText().toString());
-
-
-
                             Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(Registration.this, MainActivity.class));
-                            finish();
+                            showAlert("Verify Email", "Please verify you email before logging in.", false);
+
                         }
                     });
                 } catch (Exception e) {

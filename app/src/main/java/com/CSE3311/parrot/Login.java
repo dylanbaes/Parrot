@@ -28,13 +28,11 @@ public class Login extends AppCompatActivity {
     private Button registerButton;
     private ProgressDialog dlg;
 
-    private void showAlert(String title, String message, boolean error)
-    {
+    private void showAlert(String title, String message, boolean error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Login.this).setTitle(title).setMessage(message).setPositiveButton("Ok", (dialog, which) -> {
             dialog.cancel();
 
-            if (!error)
-            {
+            if (!error) {
                 Intent intent = new Intent(Login.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -52,8 +50,8 @@ public class Login extends AppCompatActivity {
             ParseInstallation.getCurrentInstallation().saveInBackground();
 
             // check if there already exists a session
-            if (ParseUser.getCurrentUser()!=null){
-                startActivity(new Intent(Login.this,MainActivity.class));
+            if (ParseUser.getCurrentUser() != null) {
+                startActivity(new Intent(Login.this, MainActivity.class));
                 finish();
             }
 
@@ -78,12 +76,14 @@ public class Login extends AppCompatActivity {
                 ParseUser.logInInBackground(userEmailEditText.getText().toString(), userPasswordEditText.getText().toString(), new LogInCallback() {
                     @Override
                     public void done(ParseUser user, ParseException e) {
-                        if (e!=null || user==null){
-                            throw new AssertionError("\"Error Log: Registration Failed\"");
+                        if (e == null && user != null) {
+                            dlg.dismiss();
+                            startActivity(new Intent(Login.this, MainActivity.class));
+                            finish();
                         }
+                        if (e != null)
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         dlg.dismiss();
-                        startActivity(new Intent(Login.this, MainActivity.class));
-                        finish();
                     }
                 });
 
