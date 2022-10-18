@@ -93,7 +93,8 @@ public class Registration extends AppCompatActivity {
                             userInfo.setfName(firstName.getText().toString());
                             userInfo.setEmail(userEmailEditText.getText().toString());
                             Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_LONG).show();
-
+                            startActivity(new Intent(Registration.this, Login.class));
+                            finish();
                         }
                     });
                 } catch (Exception e) {

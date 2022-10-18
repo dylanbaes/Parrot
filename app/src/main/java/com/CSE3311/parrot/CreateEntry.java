@@ -21,6 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.CSE3311.parrot.Models.Expense;
 import com.CSE3311.parrot.Models.Income;
@@ -272,8 +273,19 @@ public class CreateEntry extends AppCompatActivity {
                     expense.setNotificationDate(notificationDate.getText().toString());
                     userInfo.addExpense(expense);
                 }
+                Toast.makeText(getApplicationContext(), "Create Entry Successful!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(CreateEntry.this, MainActivity.class));
+                finish();
+
+            }
+        });
+
+        cancelEntry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
                 startActivity(new Intent(CreateEntry.this, MainActivity.class));
+                finish();
 
             }
         });
