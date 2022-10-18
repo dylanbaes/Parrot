@@ -22,7 +22,6 @@ public class Setting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         logoutButton=findViewById(R.id.logoutButton);
-
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,6 +43,7 @@ public class Setting extends AppCompatActivity {
                     case R.id.back_from_setting:
                         startActivity(new Intent(Setting.this, MainActivity.class));
                         overridePendingTransition(0,0);
+                        finish();
                         return true;
                     case R.id.notification_from_setting:
                         return true;

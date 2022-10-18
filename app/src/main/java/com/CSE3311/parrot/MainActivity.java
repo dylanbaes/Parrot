@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -45,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     Button logoutButton;
-    Button createEntryButton;
     private PieChart pieChart;
 
     EditText userName;
@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         logoutButton=findViewById(R.id.logoutButton);
-        createEntryButton=findViewById(R.id.createEntryButton);
         userName = (EditText) findViewById(R.id.user_name_value);
         userName.setText("TEST");
 
@@ -83,14 +82,6 @@ public class MainActivity extends AppCompatActivity {
         pieChartSetup();
         pieChartData();
 
-        createEntryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent createEntryIntent = new Intent(MainActivity.this, CreateEntry.class);
-                createEntryIntent.putExtra("userInfo",userInfo);
-                startActivity(createEntryIntent);
-            }
-        });
         //Initialization for bottomNavigationView
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
@@ -100,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-
                     case R.id.notification:
                     case R.id.update:
                         return true;
@@ -143,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         Legend legend = pieChart.getLegend();
         legend.setEnabled(true);
         legend.setDrawInside(true);
-        LegendEntry l1=new LegendEntry("Bills",Legend.LegendForm.SQUARE,10f,2f,null,Color.GREEN);
+        LegendEntry l1=new LegendEntry("Bills",Legend.LegendForm.SQUARE,10f,2f,null, Color.GREEN);
         LegendEntry l2=new LegendEntry("Subscriptions", Legend.LegendForm.SQUARE,10f,2f,null,Color.YELLOW);
         LegendEntry l3=new LegendEntry("Investments", Legend.LegendForm.SQUARE,10f,2f,null,Color.RED);
         legend.setCustom(new LegendEntry[]{l1,l2,l3});
@@ -155,18 +145,14 @@ public class MainActivity extends AppCompatActivity {
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                // startActivity(new Intent(MainActivity.this, each_category.class));
-                // String categoryName = pieChart.getData().getDataSetForEntry(e).getLabel();
                 String categoryName = "Bills";
                 Intent intent = new Intent(MainActivity.this, each_category.class);
                 intent.putExtra("CATEGORY_NAME",categoryName);
                 startActivity(intent);
-
             }
 
             @Override
             public void onNothingSelected() {
-
             }
         });
     }

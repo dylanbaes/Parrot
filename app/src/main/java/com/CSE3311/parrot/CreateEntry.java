@@ -274,6 +274,7 @@ public class CreateEntry extends AppCompatActivity {
                 }
 
                 startActivity(new Intent(CreateEntry.this, MainActivity.class));
+
             }
         });
 

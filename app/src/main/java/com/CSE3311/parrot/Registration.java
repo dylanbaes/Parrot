@@ -38,20 +38,6 @@ public class Registration extends AppCompatActivity {
     Button userCreateAccount;
     Button cancelButton;
 
-    private void showAlert(String title, String message, boolean error) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Registration.this).setTitle(title).setMessage(message).setPositiveButton("Ok", (dialog, which) -> {
-            dialog.cancel();
-            if (!error) {
-                Intent intent = new Intent(Registration.this, Login.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-            }
-        });
-        AlertDialog ok = builder.create();
-        ok.show();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -107,7 +93,6 @@ public class Registration extends AppCompatActivity {
                             userInfo.setfName(firstName.getText().toString());
                             userInfo.setEmail(userEmailEditText.getText().toString());
                             Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_LONG).show();
-                            showAlert("Verify Email", "Please verify you email before logging in.", false);
 
                         }
                     });
