@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.CSE3311.parrot">
 
-    //allows the app to access the internet
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
@@ -19,26 +18,48 @@
         android:theme="@style/Theme.Parrot"
         tools:targetApi="31">
         <activity
+            android:name=".Registration"
+            android:exported="true"
+            android:label="@string/title_activity_create_account"
+            android:theme="@style/Theme.Parrot.NoActionBar"/>
+        <activity
             android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
 
-        //connecting the to the back4app database
+        <activity
+            android:name=".Setting"
+            android:exported="true"/>
+        <activity
+            android:name=".CreateEntry"
+            android:exported="true"/>
+
+        <activity
+            android:name=".each_category"
+            android:exported="true"/>
+
+
+
         <meta-data
-        android:name="com.parse.SERVER_URL"
-        android:value="@string/back4app_server_url" />
+            android:name="com.parse.SERVER_URL"
+            android:value="@string/back4app_server_url" />
         <meta-data
             android:name="com.parse.APPLICATION_ID"
             android:value="@string/back4app_app_id" />
         <meta-data
             android:name="com.parse.CLIENT_KEY"
             android:value="@string/back4app_client_key" />
-
     </application>
 
 </manifest>
