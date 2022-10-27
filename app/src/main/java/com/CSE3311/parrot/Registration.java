@@ -1,35 +1,24 @@
 package com.CSE3311.parrot;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.CSE3311.parrot.Models.User;
-import com.parse.Parse;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import java.text.ParseException;
 
 public class Registration extends AppCompatActivity {
-
-    private String fName;
-    private String lName;
-    private String email;
-    private String password;
-    private String confirmPassword;
-    private ProgressDialog dlg;
 
     EditText firstName;
     EditText lastName;
@@ -38,8 +27,28 @@ public class Registration extends AppCompatActivity {
     Button userCreateAccount;
     Button cancelButton;
 
+    //sends the verification email to the user when creating an account
+    private void showAlert(String title, String message, boolean error) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Registration.this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", (dialog, which) -> {
+                    dialog.cancel();
+                    // don't forget to change the line below with the names of your Activities
+                    if (!error) {
+                        Intent intent = new Intent(Registration.this, Login.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog ok = builder.create();
+        ok.show();
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
 
         //ActivityCreateAccountBinding binding;
         super.onCreate(savedInstanceState);
@@ -57,24 +66,19 @@ public class Registration extends AppCompatActivity {
         userCreateAccount = findViewById(R.id.createaccountbtn);
         cancelButton = findViewById(R.id.cancelbtn);
 
-        //When the create account button is pressed
+        //Function for when the button is pressed
         userCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    dlg = new ProgressDialog(Registration.this);
-                    dlg.setTitle("Registering your account, please wait!");
-                    dlg.show();
-
-                    assert (!firstName.getText().toString().isEmpty()) : "Error Log: First Name not passed on";
-                    assert (!lastName.getText().toString().isEmpty()) : "Error Log: Last Name not passed on";
-                    assert (!userEmailEditText.getText().toString().isEmpty()) : "Error Log: Email Not Passed on";
-                    assert (!userPasswordEditText.getText().toString().isEmpty()) : "Error Log: Password not passed on";
-
+                //If all instances are filled up
+                if (!firstName.getText().toString().isEmpty() && !lastName.getText().toString().isEmpty() && !userEmailEditText.getText().toString().isEmpty() && !userPasswordEditText.getText().toString().isEmpty()) {
+                    //Set the email and password
                     ParseUser user = new ParseUser();
                     user.setUsername(userEmailEditText.getText().toString());
                     user.setPassword(userPasswordEditText.getText().toString());
+                    user.setEmail(userEmailEditText.getText().toString());
 
+                    //Apply the email and password
                     user.signUpInBackground(new SignUpCallback() {
                         @Override
                         public void done(com.parse.ParseException e) {
@@ -82,35 +86,32 @@ public class Registration extends AppCompatActivity {
                                 Log.d("ERROR",e.getMessage());
                                 throw new AssertionError("\"Error Log: Registration Failed\"");
                             }
-                            dlg.dismiss();
+                            if (e == null) {
+                                //Toast.makeText(getApplicationContext(), "Registration Successful!" + "\n"  + "Please verify your email.", Toast.LENGTH_LONG).show();
+                                //startActivity(new Intent(create_account.this, Login.class));
 
-                            ParseObject.registerSubclass(User.class);
-                            // User userInfo = ParseObject.createWithoutData(User.class,user.getObjectId());
-                            User userInfo = new User();
-                            userInfo.setUserName(userEmailEditText.getText().toString());
-                            userInfo.setlName(lastName.getText().toString());
-                            userInfo.setfName(firstName.getText().toString());
-                            userInfo.setEmail(userEmailEditText.getText().toString());
-                            Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(Registration.this, Login.class));
-                            finish();
+                                showAlert("Verify Email", "Please verify you email before logging in.", false);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Registration Failed!", Toast.LENGTH_LONG).show();
+                            }
                         }
                     });
-                } catch (Exception e) {
-                    dlg.dismiss();
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                }
 
+                } else {
+                    Toast.makeText(getApplicationContext(), "Missing Attributes", Toast.LENGTH_LONG).show();
+                }
             }
+
         });
 
+        //When the cancel button is pressed
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //Go back to the login screen
                 startActivity(new Intent(Registration.this, Login.class));
-                finish();
             }
         });
     }
-
 }

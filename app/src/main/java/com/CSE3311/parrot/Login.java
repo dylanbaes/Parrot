@@ -28,8 +28,12 @@ public class Login extends AppCompatActivity {
     private Button registerButton;
     private ProgressDialog dlg;
 
+    //stops user from login in if the email hasn't be verified
     private void showAlert(String title, String message, boolean error) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this).setTitle(title).setMessage(message).setPositiveButton("Ok", (dialog, which) -> {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Ok", (dialog, which) -> {
             dialog.cancel();
 
             if (!error) {
@@ -51,10 +55,10 @@ public class Login extends AppCompatActivity {
             ParseInstallation.getCurrentInstallation().saveInBackground();
 
             // check if there already exists a session
-            if (ParseUser.getCurrentUser() != null) {
-                startActivity(new Intent(Login.this, MainActivity.class));
-                finish();
-            }
+            //if (ParseUser.getCurrentUser() != null) {
+                //startActivity(new Intent(Login.this, MainActivity.class));
+                //finish();
+            //}
 
             userEmailEditText = findViewById(R.id.userEmailEditText);
             userPasswordEditText = findViewById(R.id.userPasswordEditText);
