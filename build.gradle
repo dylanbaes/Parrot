@@ -13,3 +13,6 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+ext {
+    ethree = "2.0.5"
+}

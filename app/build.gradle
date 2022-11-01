@@ -47,6 +47,9 @@ dependencies {
     // Adding MPAndroidChart:v3.1.0 for the pie chart implementation
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.google.code.gson:gson:2.8.7'
+    //for encryption support
+    implementation "com.virgilsecurity:ethree:$rootProject.ext.ethree"
+
 
 }
 
