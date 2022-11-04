@@ -97,6 +97,10 @@ public class Login extends AppCompatActivity {
                 startActivity(new Intent(Login.this, Registration.class));
                 finish();
             });
+            forgotPasswordButton.setOnClickListener(view -> {
+                startActivity(new Intent(Login.this, ForgetPassword.class));
+                finish();
+            });
 
         } catch (AssertionError e) {
             userEmailEditText.setError(null);
