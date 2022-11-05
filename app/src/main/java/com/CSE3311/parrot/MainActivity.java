@@ -1,8 +1,13 @@
 package com.CSE3311.parrot;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.CSE3311.parrot.Models.Expense;
 import com.CSE3311.parrot.Models.User;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -44,9 +50,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    ArrayList<String> surface = new ArrayList<>();
 
-    Button logoutButton;
     private PieChart pieChart;
+    private RecyclerView listEntriesRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     EditText userName;
 
@@ -57,12 +66,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        logoutButton=findViewById(R.id.logoutButton);
+        Context context = this;
+
+        surface.add("Income");
+        surface.add("Expense");
         userName = (EditText) findViewById(R.id.user_name_value);
         userName.setText("TEST");
 
         ParseObject.registerSubclass(User.class);
         ParseQuery query = new ParseQuery(User.class);
+
+        listEntriesRecyclerView = (RecyclerView) findViewById(R.id.listEntriesRecyclerView);
+        listEntriesRecyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        listEntriesRecyclerView.setLayoutManager(layoutManager);
+
+
+
         if (ParseUser.getCurrentUser().isAuthenticated()) {
             query.whereEqualTo("userName", ParseUser.getCurrentUser().getUsername());
             query.getFirstInBackground(new GetCallback<User>() {
@@ -70,12 +90,21 @@ public class MainActivity extends AppCompatActivity {
                     if (e == null) {
                         userInfo = userInformation;
                         userName.setText(userInfo.getEmail());
+                        // Make scrollable list --> surface level = category types which can shows entries in that type if clicked
+                        // Create ArrayList of all different category types
+
+                        mAdapter = new RecyclerViewAdapter(surface, context);
+                        listEntriesRecyclerView.setAdapter(mAdapter);
+
+                        //ArrayList<Expense> exp = userInfo.getExpenseLists();
+
                     } else {
                         userInfo = null;
                     }
                 }
             });
         }
+
         // Pie Chart Implementation
 
         pieChart = findViewById(R.id.mainPieChart);
