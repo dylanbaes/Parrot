@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.CSE3311.parrot.Models.User;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -91,6 +93,12 @@ public class Registration extends AppCompatActivity {
                                 //startActivity(new Intent(create_account.this, Login.class));
 
                                 showAlert("Verify Email", "Please verify you email before logging in.", false);
+                                ParseObject.registerSubclass(User.class);
+                                User userInfo = new User();
+                                userInfo.setUserName(userEmailEditText.getText().toString());
+                                userInfo.setlName(lastName.getText().toString());
+                                userInfo.setfName(firstName.getText().toString());
+                                userInfo.setEmail(userEmailEditText.getText().toString());
                             } else {
                                 Toast.makeText(getApplicationContext(), "Registration Failed!", Toast.LENGTH_LONG).show();
                             }
