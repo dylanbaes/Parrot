@@ -1,7 +1,5 @@
 package com.CSE3311.parrot;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,15 +10,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.CSE3311.parrot.Models.Expense;
 import com.CSE3311.parrot.Models.User;
-import com.parse.FindCallback;
+import com.CSE3311.parrot.Models.Income;
 import com.parse.GetCallback;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -36,14 +30,10 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-
-import java.util.List;
-import java.util.Objects;
 
 import java.util.ArrayList;
 
@@ -57,9 +47,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    EditText userName;
 
     User userInfo;
+    ArrayList<Expense> userExpenses;
+    ArrayList<Income> userIncome;
+    ArrayList<String> expenseCategories;
+    ArrayList<String> incomeNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,17 +61,15 @@ public class MainActivity extends AppCompatActivity {
 
         Context context = this;
 
-        surface.add("Income");
-        surface.add("Expense");
-        userName = (EditText) findViewById(R.id.user_name_value);
-        userName.setText("TEST");
+//        surface.add("Income");
+//        surface.add("Expense");
 
         ParseObject.registerSubclass(User.class);
         ParseQuery query = new ParseQuery(User.class);
 
         listEntriesRecyclerView = (RecyclerView) findViewById(R.id.listEntriesRecyclerView);
         listEntriesRecyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(context);
         listEntriesRecyclerView.setLayoutManager(layoutManager);
 
 
@@ -89,9 +80,19 @@ public class MainActivity extends AppCompatActivity {
                 public void done(User userInformation, ParseException e) {
                     if (e == null) {
                         userInfo = userInformation;
-                        userName.setText(userInfo.getEmail());
                         // Make scrollable list --> surface level = category types which can shows entries in that type if clicked
                         // Create ArrayList of all different category types
+
+                        // Gather list of expense and income from database
+                        userExpenses = userInfo.getExpenseLists();
+                        userIncome = userInfo.getIncomeLists();
+                        //surface.add(userExpenses.get(0).getCategoryName());
+                        for (int i = 0; i < userExpenses.size(); i++) {
+                            surface.add(userExpenses.get(i).getCategoryName());
+                        }
+                        for (int i = 0; i < userIncome.size(); i++) {
+                            surface.add(userIncome.get(i).getIncomeName());
+                        }
 
                         mAdapter = new RecyclerViewAdapter(surface, context);
                         listEntriesRecyclerView.setAdapter(mAdapter);
