@@ -47,7 +47,7 @@ public class notification_class extends AppCompatActivity {
         */
 
         Notification builder = new NotificationCompat.Builder(this, channel_id)
-                .setSmallIcon(R.drawable.ic_parrot_logo)
+                .setSmallIcon(R.drawable.ic_baseline_notifications_active_24)
                 .setContentTitle("Parrot")
                 .setContentText("You have successfully created an entry!")
 
