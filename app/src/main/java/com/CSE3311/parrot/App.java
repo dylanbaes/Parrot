@@ -10,18 +10,15 @@ import com.parse.Parse;
 //initialize Parse SDK in Our App
 public class App extends Application{
 
-    private void createNotificationChannel()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-        {
-            CharSequence name = getString(R.string.channel_name);
-            String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(notification_class.channel_id, name, importance);
-            channel.setDescription(description);
+    private void createNotificationChannel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel1 = new NotificationChannel(notification_class.channel_id, "Channel 1", NotificationManager.IMPORTANCE_DEFAULT);
 
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            channel1.setDescription("This is Channel 1");
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel1);
+
         }
     }
 
