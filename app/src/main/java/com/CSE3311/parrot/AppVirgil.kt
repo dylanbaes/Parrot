@@ -1,8 +1,6 @@
 package com.CSE3311.parrot
 
 import android.app.Application
-import com.android.virgilsecurity.virgilback4app.model.ChatThread
-import com.android.virgilsecurity.virgilback4app.model.Message
 import com.parse.Parse
 import com.parse.ParseObject
 import com.virgilsecurity.android.ethree.interaction.EThree
@@ -17,8 +15,7 @@ class AppVirgil : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        ParseObject.registerSubclass(Message::class.java)
-        ParseObject.registerSubclass(ChatThread::class.java)
+
 
         Parse.initialize(Parse.Configuration.Builder(this)
                 .applicationId(getString(R.string.back4app_app_id))

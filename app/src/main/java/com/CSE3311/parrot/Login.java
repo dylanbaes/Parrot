@@ -13,11 +13,17 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.CSE3311.parrot.utils.AuthRx;
+import com.CSE3311.parrot.utils.Preferences;
+import com.CSE3311.parrot.utils.RxEthree;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+import com.virgilsecurity.android.ethree.interaction.EThree;
+
+import io.reactivex.Single;
 
 public class Login extends AppCompatActivity {
     private EditText userEmailEditText;
@@ -88,6 +94,17 @@ public class Login extends AppCompatActivity {
                         }
                         if (e != null)
                             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+
+                        ParseUser curUser = ParseUser.getCurrentUser();
+                        Preferences preference = new Preferences(Login.this);
+
+                        Single<String> authString = AuthRx.INSTANCE.virgilJwt(curUser.getSessionToken());
+                        final String auth = authString.blockingGet();//blocking is inadvisable try to see about turning this to asynch if it causes problems
+                        preference.setVirgilToken(auth);
+                        RxEthree Rxe3 = new RxEthree(Login.this);
+                        Single<EThree> ethree = Rxe3.initEthree(curUser.getUsername(),true);
+                        AppVirgil virgil = new AppVirgil();
+                        virgil.eThree = ethree.blockingGet();//blocking is inadvisable try to see about turning this to asynch if it causes problems
                         dlg.dismiss();
                     }
                 });

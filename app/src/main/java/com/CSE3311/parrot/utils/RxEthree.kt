@@ -1,7 +1,7 @@
 package com.CSE3311.parrot.utils
 
 import android.content.Context
-import com.android.AppVirgil
+import com.CSE3311.parrot.AppVirgil
 import com.virgilsecurity.android.common.model.EThreeParams
 import com.virgilsecurity.android.ethree.interaction.EThree
 import com.virgilsecurity.common.callback.OnCompleteListener
@@ -10,8 +10,10 @@ import com.virgilsecurity.sdk.cards.Card
 import com.virgilsecurity.sdk.crypto.exceptions.KeyEntryNotFoundException
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 
 /**
+ *  code used based on demo code provided by virgil security under apache 2.0 license
  * RxEthree
  */
 class RxEthree(val context: Context) {
@@ -57,4 +59,6 @@ class RxEthree(val context: Context) {
 
         })
     }
+
+
 }

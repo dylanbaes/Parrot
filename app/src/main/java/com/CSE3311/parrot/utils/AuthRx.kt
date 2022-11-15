@@ -2,6 +2,10 @@ package com.CSE3311.parrot.utils
 
 import com.parse.ParseCloud
 import io.reactivex.Single
+/*
+ * code used based on demo code provided by virgil security under apache 2.0 license
+ * AuthRx
+ */
 
 object AuthRx {
 

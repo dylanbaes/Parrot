@@ -4,9 +4,10 @@ import android.content.Context
 import android.content.SharedPreferences
 
 /**
+ * code used based on demo code provided by virgil security under apache 2.0 license
  * Preferences
  */
-class Preferences private constructor(context: Context) {
+class Preferences(context: Context) {
 
     private val sharedPreferences: SharedPreferences
 
