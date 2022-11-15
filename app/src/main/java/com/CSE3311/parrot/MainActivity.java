@@ -11,6 +11,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.CSE3311.parrot.Models.Expense;
 import com.CSE3311.parrot.Models.User;
@@ -30,6 +34,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -47,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    EditText userName;
+    TextView income;
+    TextView expenses;
 
     User userInfo;
     ArrayList<Expense> userExpenses;
@@ -60,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Context context = this;
-
+        income = findViewById(R.id.incomeTextView);
+        expenses = findViewById(R.id.expensesTextView);
 //        surface.add("Income");
 //        surface.add("Expense");
 
@@ -97,8 +106,27 @@ public class MainActivity extends AppCompatActivity {
                         mAdapter = new RecyclerViewAdapter(surface, context);
                         listEntriesRecyclerView.setAdapter(mAdapter);
 
-                        //ArrayList<Expense> exp = userInfo.getExpenseLists();
+                        // ArrayList<Income> userIncomeList = userInfo.getIncomeLists();
+                        income.setText(new StringBuilder().append("Income: $").append(userIncome.get(0).getPaymentAmount()).toString());
+                        // ArrayList<Expense> userExpenseList = userInfo.getExpenseLists();
+                        double totalExpenses = 0;
+                        // Check if the cost contain "$" or not. If yes, get rid of that "$",
+                        // then calculate the totalExpenses
+                        for(int i = 0; i < userExpenses.size(); i++) {
+                            if(userExpenses.get(i).getCost().contains("$")) {
+                                StringBuilder newString = new StringBuilder(userExpenses.get(i).getCost());
+                                totalExpenses += Double.parseDouble(newString.deleteCharAt(0).toString());
+                            }
+                            else{
+                                totalExpenses += Double.parseDouble(userExpenses.get(i).getCost());
+                            }
+                        }
+                        expenses.setText(new StringBuilder().append("Expenses: $").append(Double.parseDouble(String.valueOf(totalExpenses))));
 
+                        // Pie Chart Implementation
+                        pieChart = findViewById(R.id.mainPieChart);
+                        pieChartSetup();
+                        pieChartData(userExpenses);
                     } else {
                         userInfo = null;
                     }
@@ -106,11 +134,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        // Pie Chart Implementation
 
-        pieChart = findViewById(R.id.mainPieChart);
-        pieChartSetup();
-        pieChartData();
 
         //Initialization for bottomNavigationView
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -151,26 +175,26 @@ public class MainActivity extends AppCompatActivity {
         pieChart.getDescription().setEnabled(false);
 
         // Offset the pie chart
-        pieChart.setExtraTopOffset(-50);
-        pieChart.setExtraBottomOffset(50);
+        // pieChart.setExtraTopOffset(-50);
+        //pieChart.setExtraBottomOffset(50);
         pieChart.setExtraLeftOffset(10);
-        pieChart.setExtraRightOffset(10);
+        pieChart.setExtraRightOffset(20);
 
         // Pie chart animation
         pieChart.animateY(1000, Easing.EaseInOutCubic);
 
         // Legend
-        Legend legend = pieChart.getLegend();
-        legend.setEnabled(true);
-        legend.setDrawInside(true);
-        LegendEntry l1=new LegendEntry("Bills",Legend.LegendForm.SQUARE,10f,2f,null, Color.GREEN);
-        LegendEntry l2=new LegendEntry("Subscriptions", Legend.LegendForm.SQUARE,10f,2f,null,Color.YELLOW);
-        LegendEntry l3=new LegendEntry("Investments", Legend.LegendForm.SQUARE,10f,2f,null,Color.RED);
-        legend.setCustom(new LegendEntry[]{l1,l2,l3});
-        legend.setTextSize(20);
-        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-        legend.setOrientation(Legend.LegendOrientation.VERTICAL);
+        // Legend legend = pieChart.getLegend();
+        // legend.setEnabled(true);
+        // legend.setDrawInside(true);
+        // LegendEntry l1=new LegendEntry("Bills",Legend.LegendForm.SQUARE,10f,2f,null, Color.GREEN);
+        // LegendEntry l2=new LegendEntry("Subscriptions", Legend.LegendForm.SQUARE,10f,2f,null,Color.YELLOW);
+        // LegendEntry l3=new LegendEntry("Investments", Legend.LegendForm.SQUARE,10f,2f,null,Color.RED);
+        // legend.setCustom(new LegendEntry[]{l1,l2,l3});
+        // legend.setTextSize(20);
+        // legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        // legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        // legend.setOrientation(Legend.LegendOrientation.VERTICAL);
 
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
@@ -187,11 +211,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void pieChartData(){
+    private void pieChartData(ArrayList<Expense> userExpenseList){
         ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(0.166f, "$1,422"));
-        entries.add(new PieEntry(0.92f, "$245"));
-        entries.add(new PieEntry(0.375f, "$1000"));
+        for(int i = 0; i < userExpenseList.size(); i++) {
+            if(userExpenseList.get(i).getCost().contains("$")) {
+                StringBuilder newString = new StringBuilder(userExpenseList.get(i).getCost());
+                entries.add(new PieEntry(Float.parseFloat(newString.deleteCharAt(0).toString()), newString.toString()));
+            }
+            else{
+                entries.add(new PieEntry(Float.parseFloat(userExpenseList.get(i).getCost()), userExpenseList.get(i).getCost()));
+            }
+
+        }
 
         ArrayList<Integer> colors = new ArrayList<>();
         for(int color: ColorTemplate.MATERIAL_COLORS){

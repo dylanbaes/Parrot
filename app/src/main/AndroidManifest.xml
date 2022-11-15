@@ -50,9 +50,6 @@
         <activity
             android:name=".each_category"
             android:exported="true" />
-        <activity
-            android:name=".notification_class"
-            android:exported="true" />
 
         <meta-data
             android:name="com.parse.SERVER_URL"
