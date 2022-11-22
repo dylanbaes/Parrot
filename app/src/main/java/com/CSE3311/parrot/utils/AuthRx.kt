@@ -12,6 +12,7 @@ object AuthRx {
     /**
      * You can call it only after successful [authenticate]
      */
+    //this is what handles the server code call to handle the keys
     fun virgilJwt(sessionToken: String) = Single.create<String> { emitter ->
         val requestParams = mutableMapOf<String, String>().apply {
             put("sessionToken", sessionToken)

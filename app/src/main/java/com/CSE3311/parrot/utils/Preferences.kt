@@ -14,14 +14,14 @@ class Preferences(context: Context) {
     init {
         sharedPreferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
     }
-
+    //this sets the token
     fun setVirgilToken(virgilToken: String) {
         with(sharedPreferences.edit()) {
             putString(KEY_VIRGIL_TOKEN, virgilToken)
             apply()
         }
     }
-
+    //this is the token with the login info im pretty sure its just the public key
     fun virgilToken(): String? {
         with(sharedPreferences) {
             return getString(KEY_VIRGIL_TOKEN, null)

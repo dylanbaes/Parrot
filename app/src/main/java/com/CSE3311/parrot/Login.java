@@ -94,7 +94,7 @@ public class Login extends AppCompatActivity {
                         }
                         if (e != null)
                             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-
+                        //this might also not be in the right place but its the login version of the code in registration
                         ParseUser curUser = ParseUser.getCurrentUser();
                         Preferences preference = new Preferences(Login.this);
 

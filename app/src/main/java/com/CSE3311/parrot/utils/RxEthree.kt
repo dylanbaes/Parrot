@@ -19,7 +19,7 @@ import io.reactivex.schedulers.Schedulers
 class RxEthree(val context: Context) {
 
     private val preferences = Preferences.instance(context)
-
+    //ethree initializer
     fun initEthree(identity: String, verifyPrivateKey: Boolean = false): Single<EThree> = Single.create { e ->
         val params = EThreeParams(identity, {preferences.virgilToken()!!}, context)
         val ethree = EThree(params)
@@ -33,7 +33,7 @@ class RxEthree(val context: Context) {
             e.onSuccess(ethree)
         }
     }
-
+    //ethree registration function
     fun registerEthree(): Completable = Completable.create { e ->
         AppVirgil.eThree.register().addCallback(object : OnCompleteListener {
             override fun onError(throwable: Throwable) {
@@ -46,7 +46,42 @@ class RxEthree(val context: Context) {
 
         })
     }
+    //this requests cards from virgil the string is a username
+    //in order to use this you need to establish a card at the start of the function youre using it it
+    //so
+    //import com.virgilsecurity.sdk.cards.Card
+    //private lateinit var userCard: Card
+    //in the getter or setter function
+    //val encryptedText = eThree.authEncrypt(text, userCard)
+    //or val decryptedText = eThree.authDecrypt(text,userCard) for decryption
+    //this is a function to request the card:
+    /*fun requestCard(identity: String,
+                    onSuccess: (Card) -> Unit,
+                    onError: (Throwable) -> Unit) {
 
+        val disposable = rxEthree.findCard(identity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(
+                    onSuccess = {
+                        userCard = it
+                        onSuccess(it)
+                    },
+                    onError = {
+                        onError(it)
+                    }
+                )
+
+        compositeDisposable += disposable
+    }*/
+    //the above is in kotlin but translating it to java should be something like
+    //Single<Card> getCard = rxEThree.findCard(username);
+    //final Card userCard = getCard.blockingGet();
+    //string encryptedText = eThree.authEncrypt(text,userCard);
+    //for one of those you may need to use a blocking get or asynch through subscribe
+    //all the above code and relevant code is from here: https://github.com/VirgilSecurity/chat-back4app-android
+    //i recommend loading it up in another window to go back and forth and over over functions to see the return types and whats actually going on
+    //the relevant pages in there for us are loginpresenter, chatthreadpresenter and chatthreadrvadapter they show how its delcared when being used
     fun findCard(identity: String): Single<Card> = Single.create { e ->
         AppVirgil.eThree.findUser(identity).addCallback(object : OnResultListener<Card> {
             override fun onError(throwable: Throwable) {

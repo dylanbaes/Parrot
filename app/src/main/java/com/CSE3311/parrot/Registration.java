@@ -107,16 +107,19 @@ public class Registration extends AppCompatActivity {
                             }
                         }
                     });
+                    //this might not be in the right section
                     ParseUser curUser = ParseUser.getCurrentUser();
                     Preferences preference = new Preferences(v.getContext());
-
+                    //single here is a reactive scheduling thing, it can do an asynch server call to return the string with the user info
                     Single<String> authString = AuthRx.INSTANCE.virgilJwt(curUser.getSessionToken());
                     final String auth = authString.blockingGet();//blocking is inadvisable try to see about turning this to asynch if it causes problems
                     preference.setVirgilToken(auth);
                     RxEthree Rxe3 = new RxEthree(v.getContext());
                     Single<EThree> ethree = Rxe3.initEthree(curUser.getUsername(),false);
                     AppVirgil virgil = new AppVirgil();
+                    //these blocking gets force a response and may need to be replaced with asynch
                     virgil.eThree = ethree.blockingGet();//blocking is inadvisable try to see about turning this to asynch if it causes problems
+                    //register because its a register function
                     Rxe3.registerEthree();
 
 
