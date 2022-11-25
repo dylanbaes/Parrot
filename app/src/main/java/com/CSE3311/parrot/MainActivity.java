@@ -41,10 +41,14 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    ArrayList<String> expenseNames = new ArrayList<>();
+    ArrayList<String> incomeNames = new ArrayList<>();
+    HashSet<String> expenseCats = new HashSet<>();
     ArrayList<String> surface = new ArrayList<>();
 
     private PieChart pieChart;
@@ -59,19 +63,17 @@ public class MainActivity extends AppCompatActivity {
     User userInfo;
     ArrayList<Expense> userExpenses;
     ArrayList<Income> userIncome;
-    ArrayList<String> expenseCategories;
-    ArrayList<String> incomeNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        surface.add("Income");
+        surface.add("Expenses");
 
         Context context = this;
         income = findViewById(R.id.incomeTextView);
         expenses = findViewById(R.id.expensesTextView);
-//        surface.add("Income");
-//        surface.add("Expense");
 
         ParseObject.registerSubclass(User.class);
         ParseQuery query = new ParseQuery(User.class);
@@ -97,10 +99,11 @@ public class MainActivity extends AppCompatActivity {
                         userIncome = userInfo.getIncomeLists();
                         //surface.add(userExpenses.get(0).getCategoryName());
                         for (int i = 0; i < userExpenses.size(); i++) {
-                            surface.add(userExpenses.get(i).getCategoryName());
+                            expenseNames.add(userExpenses.get(i).getCategoryName());
+                            expenseCats.add(userExpenses.get(i).getCategoryType());
                         }
                         for (int i = 0; i < userIncome.size(); i++) {
-                            surface.add(userIncome.get(i).getIncomeName());
+                            incomeNames.add(userIncome.get(i).getIncomeName());
                         }
 
                         mAdapter = new RecyclerViewAdapter(surface, context);
