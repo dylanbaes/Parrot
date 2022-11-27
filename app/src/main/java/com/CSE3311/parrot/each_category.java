@@ -3,6 +3,9 @@ package com.CSE3311.parrot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,8 +17,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.parse.ParseUser;
 
+
+
 public class each_category extends AppCompatActivity {
-    TextView valueText;
+
+    TextView categoryNameText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +30,8 @@ public class each_category extends AppCompatActivity {
 
         Intent intent = getIntent();
         String categoryName = intent.getStringExtra("CATEGORY_NAME");
-        valueText = (TextView) findViewById(R.id.valueTextView);
-        valueText.setText(categoryName);
+        categoryNameText = (TextView) findViewById(R.id.categoryNameTextView);
+        categoryNameText.setText(categoryName);
 
         //Initialization for bottomNavigationView
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);

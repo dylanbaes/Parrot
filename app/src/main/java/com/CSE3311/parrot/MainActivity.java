@@ -11,9 +11,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.CSE3311.parrot.Models.Expense;
@@ -22,8 +19,6 @@ import com.CSE3311.parrot.Models.Income;
 import com.parse.GetCallback;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -34,7 +29,6 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -45,22 +39,18 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<String> surface = new ArrayList<>();
-
     private PieChart pieChart;
     private RecyclerView listEntriesRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    EditText userName;
     TextView income;
     TextView expenses;
 
     User userInfo;
     ArrayList<Expense> userExpenses;
     ArrayList<Income> userIncome;
-    ArrayList<String> expenseCategories;
-    ArrayList<String> incomeNames;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
         Context context = this;
         income = findViewById(R.id.incomeTextView);
         expenses = findViewById(R.id.expensesTextView);
-//        surface.add("Income");
-//        surface.add("Expense");
+
 
         ParseObject.registerSubclass(User.class);
         ParseQuery query = new ParseQuery(User.class);
@@ -89,44 +78,56 @@ public class MainActivity extends AppCompatActivity {
                 public void done(User userInformation, ParseException e) {
                     if (e == null) {
                         userInfo = userInformation;
-                        // Make scrollable list --> surface level = category types which can shows entries in that type if clicked
-                        // Create ArrayList of all different category types
 
                         // Gather list of expense and income from database
                         userExpenses = userInfo.getExpenseLists();
                         userIncome = userInfo.getIncomeLists();
-                        //surface.add(userExpenses.get(0).getCategoryName());
-                        for (int i = 0; i < userExpenses.size(); i++) {
-                            surface.add(userExpenses.get(i).getCategoryName());
-                        }
-                        for (int i = 0; i < userIncome.size(); i++) {
-                            surface.add(userIncome.get(i).getIncomeName());
+
+                        // eachCategory stores all category type
+                        ArrayList<String> eachCategory = new ArrayList<>();
+                        // eachCategoryValue stores the total cost for each category
+                        ArrayList<Double> eachCategoryValue = new ArrayList<>();
+
+                        eachCategory.add(userExpenses.get(0).getCategoryType());
+                        eachCategoryValue.add(Double.parseDouble(userExpenses.get(0).getCost()));
+                        for(int i = 1; i < userExpenses.size(); i++) {
+                            boolean match = false;
+                            for (int j = 0; j < eachCategory.size(); j++) {
+                                if (userExpenses.get(i).getCategoryType().equals(eachCategory.get(j))) {
+                                    eachCategoryValue.set(j, eachCategoryValue.get(j) + Double.parseDouble(userExpenses.get(i).getCost()));
+                                    match = true;
+                                }
+                            }
+                            if (!match) {
+                                eachCategory.add(userExpenses.get(i).getCategoryType());
+                                eachCategoryValue.add(Double.parseDouble(userExpenses.get(i).getCost()));
+                            }
                         }
 
-                        mAdapter = new RecyclerViewAdapter(surface, context);
+
+                        mAdapter = new RecyclerViewAdapter(eachCategory, context);
                         listEntriesRecyclerView.setAdapter(mAdapter);
 
-                        // ArrayList<Income> userIncomeList = userInfo.getIncomeLists();
-                        income.setText(new StringBuilder().append("Income: $").append(userIncome.get(0).getPaymentAmount()).toString());
+                        double totalIncome = 0;
+
+                        for(int i = 0; i < userIncome.size(); i++) {
+                            totalIncome += Double.parseDouble(userIncome.get(i).getPaymentAmount());
+                        }
+                        income.setText(new StringBuilder().append("Income: $").append(String.format("%.2f", totalIncome)));
+
                         // ArrayList<Expense> userExpenseList = userInfo.getExpenseLists();
                         double totalExpenses = 0;
-                        // Check if the cost contain "$" or not. If yes, get rid of that "$",
-                        // then calculate the totalExpenses
-                        for(int i = 0; i < userExpenses.size(); i++) {
-                            if(userExpenses.get(i).getCost().contains("$")) {
-                                StringBuilder newString = new StringBuilder(userExpenses.get(i).getCost());
-                                totalExpenses += Double.parseDouble(newString.deleteCharAt(0).toString());
-                            }
-                            else{
-                                totalExpenses += Double.parseDouble(userExpenses.get(i).getCost());
-                            }
+
+                        for(int i = 0; i < eachCategoryValue.size(); i++) {
+                            totalExpenses += eachCategoryValue.get(i);
                         }
-                        expenses.setText(new StringBuilder().append("Expenses: $").append(Double.parseDouble(String.valueOf(totalExpenses))));
+                        expenses.setText(new StringBuilder().append("Expenses: $").append(String.format("%.2f", totalExpenses)));
+
 
                         // Pie Chart Implementation
                         pieChart = findViewById(R.id.mainPieChart);
-                        pieChartSetup();
-                        pieChartData(userExpenses);
+                        pieChartSetup(eachCategory);
+                        pieChartData(eachCategoryValue, eachCategory);
                     } else {
                         userInfo = null;
                     }
@@ -142,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.setting);
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-                @Override
+            @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.notification:
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    private void pieChartSetup(){
+    private void pieChartSetup(ArrayList<String> eachCategory){
         pieChart.setDrawHoleEnabled(true);
         pieChart.setUsePercentValues(true);
         pieChart.setEntryLabelColor(14);
@@ -175,31 +176,17 @@ public class MainActivity extends AppCompatActivity {
         pieChart.getDescription().setEnabled(false);
 
         // Offset the pie chart
-        // pieChart.setExtraTopOffset(-50);
-        //pieChart.setExtraBottomOffset(50);
         pieChart.setExtraLeftOffset(10);
         pieChart.setExtraRightOffset(20);
 
         // Pie chart animation
         pieChart.animateY(1000, Easing.EaseInOutCubic);
 
-        // Legend
-        // Legend legend = pieChart.getLegend();
-        // legend.setEnabled(true);
-        // legend.setDrawInside(true);
-        // LegendEntry l1=new LegendEntry("Bills",Legend.LegendForm.SQUARE,10f,2f,null, Color.GREEN);
-        // LegendEntry l2=new LegendEntry("Subscriptions", Legend.LegendForm.SQUARE,10f,2f,null,Color.YELLOW);
-        // LegendEntry l3=new LegendEntry("Investments", Legend.LegendForm.SQUARE,10f,2f,null,Color.RED);
-        // legend.setCustom(new LegendEntry[]{l1,l2,l3});
-        // legend.setTextSize(20);
-        // legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        // legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-        // legend.setOrientation(Legend.LegendOrientation.VERTICAL);
 
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                String categoryName = "Bills";
+                String categoryName = String.valueOf(eachCategory.get((int)h.getX()));
                 Intent intent = new Intent(MainActivity.this, each_category.class);
                 intent.putExtra("CATEGORY_NAME",categoryName);
                 startActivity(intent);
@@ -211,17 +198,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void pieChartData(ArrayList<Expense> userExpenseList){
+    private void pieChartData(ArrayList<Double> eachCategoryValue, ArrayList<String> eachCategory){
         ArrayList<PieEntry> entries = new ArrayList<>();
-        for(int i = 0; i < userExpenseList.size(); i++) {
-            if(userExpenseList.get(i).getCost().contains("$")) {
-                StringBuilder newString = new StringBuilder(userExpenseList.get(i).getCost());
-                entries.add(new PieEntry(Float.parseFloat(newString.deleteCharAt(0).toString()), newString.toString()));
-            }
-            else{
-                entries.add(new PieEntry(Float.parseFloat(userExpenseList.get(i).getCost()), userExpenseList.get(i).getCost()));
-            }
 
+        for(int i = 0; i < eachCategory.size(); i++) {
+            entries.add(new PieEntry(Float.parseFloat(eachCategoryValue.get(i).toString()), eachCategory.get(i)));
         }
 
         ArrayList<Integer> colors = new ArrayList<>();
