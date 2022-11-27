@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.CSE3311.parrot.Models.Expense;
@@ -35,14 +36,13 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private PieChart pieChart;
-    private RecyclerView listEntriesRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView mainRecyclerView;
 
     TextView income;
     TextView expenses;
@@ -51,26 +51,32 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Expense> userExpenses;
     ArrayList<Income> userIncome;
 
+    private ItemAdapter adapter;
+    private List<DataModel> mList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        mList = new ArrayList<>();
         Context context = this;
         income = findViewById(R.id.incomeTextView);
         expenses = findViewById(R.id.expensesTextView);
 
 
+
         ParseObject.registerSubclass(User.class);
         ParseQuery query = new ParseQuery(User.class);
 
-        listEntriesRecyclerView = (RecyclerView) findViewById(R.id.listEntriesRecyclerView);
-        listEntriesRecyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(context);
-        listEntriesRecyclerView.setLayoutManager(layoutManager);
+        mainRecyclerView = (RecyclerView) findViewById(R.id.mainRecyclerView);
+        mainRecyclerView.setHasFixedSize(true);
+        mainRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
+        ArrayList<String> expenseList = new ArrayList<>();
+        ArrayList<String> incomeList = new ArrayList<>();
 
         if (ParseUser.getCurrentUser().isAuthenticated()) {
             query.whereEqualTo("userName", ParseUser.getCurrentUser().getUsername());
@@ -83,10 +89,26 @@ public class MainActivity extends AppCompatActivity {
                         userExpenses = userInfo.getExpenseLists();
                         userIncome = userInfo.getIncomeLists();
 
-                        // eachCategory stores all category type
-                        ArrayList<String> eachCategory = new ArrayList<>();
                         // eachCategoryValue stores the total cost for each category
+                        ArrayList<String> eachCategory = new ArrayList<>();
                         ArrayList<Double> eachCategoryValue = new ArrayList<>();
+
+                        // Gather all string expense and income and store it into expenseList and incomeList
+                        for (int i = 0; i < userExpenses.size(); i++) {
+                            expenseList.add(userExpenses.get(i).getCategoryName());
+                        }
+                        for (int i = 0; i < userIncome.size(); i++) {
+                            System.out.println(expenseList.get(i));
+                            incomeList.add(userIncome.get(i).getIncomeName());
+                        }
+
+                        mList.add(new DataModel(expenseList, "Expenses"));
+                        mList.add(new DataModel(incomeList, "Income"));
+
+                        adapter = new ItemAdapter(mList);
+                        //mAdapter = new RecyclerViewAdapter(eachCategory, context);
+                        mainRecyclerView.setAdapter(adapter);
+
 
                         eachCategory.add(userExpenses.get(0).getCategoryType());
                         eachCategoryValue.add(Double.parseDouble(userExpenses.get(0).getCost()));
@@ -105,8 +127,6 @@ public class MainActivity extends AppCompatActivity {
                         }
 
 
-                        mAdapter = new RecyclerViewAdapter(eachCategory, context);
-                        listEntriesRecyclerView.setAdapter(mAdapter);
 
                         double totalIncome = 0;
 
