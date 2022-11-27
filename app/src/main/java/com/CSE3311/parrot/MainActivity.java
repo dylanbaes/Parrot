@@ -227,4 +227,30 @@ public class MainActivity extends AppCompatActivity {
         pieChart.setData(pieChartObject);
         pieChart.invalidate(); // refresh the pie chart
     }
+
+    // Use this function to, given the name of the expense, find the expense within the database and it will return an expense object.
+    private Expense getExpenseData (User userInfo, String expenseName) {
+        Expense data;
+        for (int i = 0; i < userInfo.getExpenseLists().size(); i++) {
+            // Check if the expenseName we are searching for is in the expense list
+            if (expenseName.equalsIgnoreCase(userInfo.getExpenseLists().get(i).getCategoryName())) {
+                data = userInfo.getExpenseLists().get(i);
+                return data;
+            }
+        }
+        return null;
+    }
+
+    // Use this function to, given the name of the income, find the expense within the database and it will return an income object.
+    private Income getIncomeData (User userInfo, String incomeName) {
+        Income data;
+        for (int i = 0; i < userInfo.getExpenseLists().size(); i++) {
+            // Check if the incomeName we are searching for is in the income list
+            if (incomeName.equalsIgnoreCase(userInfo.getIncomeLists().get(i).getIncomeName())) {
+                data = userInfo.getIncomeLists().get(i);
+                return data;
+            }
+        }
+        return null;
+    }
 }
