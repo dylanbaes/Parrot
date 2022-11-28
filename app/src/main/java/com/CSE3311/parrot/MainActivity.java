@@ -75,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
         mainRecyclerView.setHasFixedSize(true);
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        ArrayList<String> expenseList = new ArrayList<>();
-        ArrayList<String> incomeList = new ArrayList<>();
+        List<String> expenseList = new ArrayList<>();
+        List<String> incomeList = new ArrayList<>();
 
         if (ParseUser.getCurrentUser().isAuthenticated()) {
             query.whereEqualTo("userName", ParseUser.getCurrentUser().getUsername());
@@ -96,9 +96,9 @@ public class MainActivity extends AppCompatActivity {
                         // Gather all string expense and income and store it into expenseList and incomeList
                         for (int i = 0; i < userExpenses.size(); i++) {
                             expenseList.add(userExpenses.get(i).getCategoryName());
+                            System.out.println(expenseList.get(i));
                         }
                         for (int i = 0; i < userIncome.size(); i++) {
-                            System.out.println(expenseList.get(i));
                             incomeList.add(userIncome.get(i).getIncomeName());
                         }
 

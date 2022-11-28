@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -44,6 +45,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             holder.mArrowImage.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
         }
 
+        NestedAdapter adapter = new NestedAdapter(list);
+        holder.nestedRecyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+        holder.nestedRecyclerView.setHasFixedSize(true);
+        holder.nestedRecyclerView.setAdapter(adapter);
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,6 +79,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             mTextView = itemView.findViewById(R.id.itemTv);
             mArrowImage = itemView.findViewById(R.id.arrow_imageview);
             nestedRecyclerView = itemView.findViewById(R.id.child_rv);
+            nestedRecyclerView.setNestedScrollingEnabled(true);
         }
     }
 
