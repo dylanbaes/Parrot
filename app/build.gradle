@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
+
 }
+apply plugin: 'kotlin-android'
 
 android {
     compileSdk 33
@@ -76,7 +78,7 @@ dependencies {
     // for RxJava support (optional)
     implementation "com.github.parse-community.Parse-SDK-Android:rxjava:$parseVersion"
     // Kotlin might need working on
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.10"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.10"
     // Rx
     implementation "io.reactivex.rxjava2:rxkotlin:2.3.0"
     implementation "io.reactivex.rxjava2:rxjava:2.2.8"
