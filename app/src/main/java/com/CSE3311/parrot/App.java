@@ -5,6 +5,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 
+import androidx.annotation.RequiresApi;
+
 import com.parse.Parse;
 
 //initialize Parse SDK in Our App

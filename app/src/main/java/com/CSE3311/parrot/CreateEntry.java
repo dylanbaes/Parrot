@@ -1,5 +1,7 @@
 package com.CSE3311.parrot;
 
+import com.CSE3311.parrot.notification_class;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -249,7 +251,6 @@ public class CreateEntry extends AppCompatActivity {
         createEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 ParseObject.registerSubclass(User.class);
                 if (category.getSelectedItem().equals("Income")) {
                     Income income = new Income();
@@ -276,7 +277,6 @@ public class CreateEntry extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Create Entry Successful!", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(CreateEntry.this, MainActivity.class));
                 finish();
-
             }
         });
 

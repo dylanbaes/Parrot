@@ -13,6 +13,7 @@ import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,16 +25,32 @@ import androidx.core.app.NotificationManagerCompat;
 public class notification_class extends AppCompatActivity {
     public final static String channel_id = "Parrot Notification";
     private NotificationManagerCompat notificationManager;
-    private Button submitEntry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_create_entry);
-        submitEntry = (Button) findViewById(R.id.create_entry_submit_submission);
+        Button submitEntry = (Button)findViewById(R.id.create_entry_submit_submission);
 
-        notificationManager = NotificationManagerCompat.from(this);
+        /*submitEntry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });*/
+
+        submitEntry.setOnClickListener(v -> {
+            Toast.makeText(this, "reminder set", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(notification_class.this, Receiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(notification_class.this, 0, intent, 0);
+
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+            alarmManager.set(AlarmManager.RTC_WAKEUP, 0, pendingIntent);
+        });
+
     }
     //submitEntry.setOnClickListener(new View.OnClickListener() {
 
@@ -63,7 +80,6 @@ public class notification_class extends AppCompatActivity {
                 .build();
 
         notificationManager.notify(1, builder);
-
 
     }
 }
