@@ -1,7 +1,7 @@
 package com.CSE3311.parrot;
 
 import android.os.Bundle;
-import com.CSE3311.parrot.AppVirgil;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -12,15 +12,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.CSE3311.parrot.Models.User;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
+import java.text.ParseException;
+
+import com.CSE3311.parrot.AppVirgil;
 import com.CSE3311.parrot.utils.AuthRx;
 import com.CSE3311.parrot.utils.Preferences;
 import com.CSE3311.parrot.utils.RxEthree;
-import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import java.text.ParseException;
 import com.virgilsecurity.android.common.model.EThreeParams;
 import com.virgilsecurity.android.ethree.interaction.EThree;
 import java.util.stream.Stream;
@@ -97,33 +102,34 @@ public class Registration extends AppCompatActivity {
                                 //Toast.makeText(getApplicationContext(), "Registration Successful!" + "\n"  + "Please verify your email.", Toast.LENGTH_LONG).show();
                                 //startActivity(new Intent(create_account.this, Login.class));
 
-
-
-
-
                                 showAlert("Verify Email", "Please verify you email before logging in.", false);
+                                ParseObject.registerSubclass(User.class);
+                                User userInfo = new User();
+                                userInfo.setUserName(userEmailEditText.getText().toString());
+                                userInfo.setlName(lastName.getText().toString());
+                                userInfo.setfName(firstName.getText().toString());
+                                userInfo.setEmail(userEmailEditText.getText().toString());
+
+                                //this might not be in the right section
+                                ParseUser curUser = ParseUser.getCurrentUser();
+                                Preferences preference = new Preferences(v.getContext());
+                                //single here is a reactive scheduling thing, it can do an asynch server call to return the string with the user info
+                                Single<String> authString = AuthRx.INSTANCE.virgilJwt(curUser.getSessionToken());//<-- problem is here with session token
+                                final String auth = authString.blockingGet();//blocking is inadvisable try to see about turning this to asynch if it causes problems
+                                preference.setVirgilToken(auth);
+                                RxEthree Rxe3 = new RxEthree(v.getContext());
+                                Single<EThree> ethree = Rxe3.initEthree(curUser.getUsername(),false);
+                                AppVirgil virgil = new AppVirgil();
+                                //these blocking gets force a response and may need to be replaced with asynch
+                                virgil.eThree = ethree.blockingGet();//blocking is inadvisable try to see about turning this to asynch if it causes problems
+                                //register because its a register function
+                                Rxe3.registerEthree();
+
                             } else {
                                 Toast.makeText(getApplicationContext(), "Registration Failed!", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
-                    //this might not be in the right section
-                    ParseUser curUser = ParseUser.getCurrentUser();
-                    Preferences preference = new Preferences(v.getContext());
-                    //single here is a reactive scheduling thing, it can do an asynch server call to return the string with the user info
-                    Single<String> authString = AuthRx.INSTANCE.virgilJwt(curUser.getSessionToken());
-                    final String auth = authString.blockingGet();//blocking is inadvisable try to see about turning this to asynch if it causes problems
-                    preference.setVirgilToken(auth);
-                    RxEthree Rxe3 = new RxEthree(v.getContext());
-                    Single<EThree> ethree = Rxe3.initEthree(curUser.getUsername(),false);
-                    AppVirgil virgil = new AppVirgil();
-                    //these blocking gets force a response and may need to be replaced with asynch
-                    virgil.eThree = ethree.blockingGet();//blocking is inadvisable try to see about turning this to asynch if it causes problems
-                    //register because its a register function
-                    Rxe3.registerEthree();
-
-
-
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Missing Attributes", Toast.LENGTH_LONG).show();
@@ -131,7 +137,6 @@ public class Registration extends AppCompatActivity {
             }
 
         });
-
 
         //When the cancel button is pressed
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -142,8 +147,5 @@ public class Registration extends AppCompatActivity {
                 startActivity(new Intent(Registration.this, Login.class));
             }
         });
-
-
     }
-
 }
