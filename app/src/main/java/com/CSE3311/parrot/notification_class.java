@@ -22,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import java.util.Locale;
+
 public class notification_class extends AppCompatActivity {
     public final static String channel_id = "Parrot Notification";
     private NotificationManagerCompat notificationManager;
@@ -29,38 +31,46 @@ public class notification_class extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_create_entry);
         Button submitEntry = (Button)findViewById(R.id.create_entry_submit_submission);
 
-        /*submitEntry.setOnClickListener(new View.OnClickListener() {
+        notificationManager = NotificationManagerCompat.from(this);
+
+        submitEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Notification builder = new NotificationCompat.Builder(notification_class.this, channel_id)
+                        .setSmallIcon(R.drawable.ic_baseline_notifications_active_24)
+                        .setContentTitle("Parrot")
+                        .setContentText("You have successfully created an entry!")
 
+                        //.setContentIntent(pendingIntent)
+                        //have not implemented yet
+
+                        //when notification sends it shows the big text first
+                        //instead of contentText
+
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText("Your subscription is due next month"))
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                        .setAutoCancel(true)
+                        .build();
+
+                notificationManager.notify(1, builder);
             }
-        });*/
-
-        submitEntry.setOnClickListener(v -> {
-            Toast.makeText(this, "reminder set", Toast.LENGTH_SHORT).show();
-
-            Intent intent = new Intent(notification_class.this, Receiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(notification_class.this, 0, intent, 0);
-
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-            alarmManager.set(AlarmManager.RTC_WAKEUP, 0, pendingIntent);
         });
-
     }
     //submitEntry.setOnClickListener(new View.OnClickListener() {
 
-    public void Submit(View v) {
+    /*public void Submit(View v) {
 
-       /*
+
         Intent intent = new Intent(this, App.class);
         //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-        */
+
 
         Notification builder = new NotificationCompat.Builder(this, channel_id)
                 .setSmallIcon(R.drawable.ic_baseline_notifications_active_24)
@@ -76,10 +86,11 @@ public class notification_class extends AppCompatActivity {
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText("Your subscription is due next month"))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setAutoCancel(true)
                 .build();
 
         notificationManager.notify(1, builder);
 
-    }
+    }*/
 }
