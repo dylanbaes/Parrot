@@ -19,6 +19,8 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import java.text.ParseException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Registration extends AppCompatActivity {
 
@@ -26,6 +28,7 @@ public class Registration extends AppCompatActivity {
     EditText lastName;
     EditText userEmailEditText;
     EditText userPasswordEditText;
+    EditText userPasswordConfirmText;
     Button userCreateAccount;
     Button cancelButton;
 
@@ -65,6 +68,7 @@ public class Registration extends AppCompatActivity {
         lastName = findViewById(R.id.lastname);
         userEmailEditText = findViewById(R.id.email);
         userPasswordEditText = findViewById(R.id.password);
+        userPasswordConfirmText = findViewById(R.id.confirmpass);
         userCreateAccount = findViewById(R.id.createaccountbtn);
         cancelButton = findViewById(R.id.cancelbtn);
 
@@ -74,6 +78,19 @@ public class Registration extends AppCompatActivity {
             public void onClick(View v) {
                 //If all instances are filled up
                 if (!firstName.getText().toString().isEmpty() && !lastName.getText().toString().isEmpty() && !userEmailEditText.getText().toString().isEmpty() && !userPasswordEditText.getText().toString().isEmpty()) {
+
+                    // Validate password with special characters and confirm pass is the same as regular pass
+
+                    if(!isValidPassword(userPasswordEditText.getText().toString())) {
+                        Toast.makeText(getApplicationContext(), "Password must contain at least 8 characters, 1 capital letter, 1 lowercase letter, 1 number, and 1 special character.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    if(!(userPasswordEditText.getText().toString().equals(userPasswordConfirmText.getText().toString()))) {
+                        Toast.makeText(getApplicationContext(), "Password and confirm password line must be the same.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
                     //Set the email and password
                     ParseUser user = new ParseUser();
                     user.setUsername(userEmailEditText.getText().toString());
@@ -84,10 +101,6 @@ public class Registration extends AppCompatActivity {
                     user.signUpInBackground(new SignUpCallback() {
                         @Override
                         public void done(com.parse.ParseException e) {
-                            if (e != null) {
-                                Log.d("ERROR",e.getMessage());
-                                throw new AssertionError("\"Error Log: Registration Failed\"");
-                            }
                             if (e == null) {
                                 //Toast.makeText(getApplicationContext(), "Registration Successful!" + "\n"  + "Please verify your email.", Toast.LENGTH_LONG).show();
                                 //startActivity(new Intent(create_account.this, Login.class));
@@ -100,13 +113,14 @@ public class Registration extends AppCompatActivity {
                                 userInfo.setfName(firstName.getText().toString());
                                 userInfo.setEmail(userEmailEditText.getText().toString());
                             } else {
-                                Toast.makeText(getApplicationContext(), "Registration Failed!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Failed to register. An account with that email may already exist.", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Missing Attributes", Toast.LENGTH_LONG).show();
+                    return;
                 }
             }
 
@@ -121,5 +135,22 @@ public class Registration extends AppCompatActivity {
                 startActivity(new Intent(Registration.this, Login.class));
             }
         });
+    }
+
+    public final static boolean isValidPassword(String target) {
+        String regex = "^(?=.*[0-9])"
+                + "(?=.*[a-z])(?=.*[A-Z])"
+                + "(?=.*[@#$%^&+=!])"
+                + "(?=\\S+$).{8,20}$";
+
+        Pattern p = Pattern.compile(regex);
+
+        if (target == null) {
+            return false;
+        }
+
+        Matcher m = p.matcher(target);
+
+        return m.matches();
     }
 }
