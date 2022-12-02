@@ -52,7 +52,7 @@ public class CreateEntry extends AppCompatActivity {
     private DatePickerDialog startDateDialog, endDateDialog, notificationDateDialog;
     private TimePickerDialog notificationTimeDialog;
 
-    private Button uploadImage, createEntry, cancelEntry;
+    private Button createEntry, cancelEntry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +74,11 @@ public class CreateEntry extends AppCompatActivity {
         paymentType = (EditText) findViewById(R.id.create_entry_edit_text_payment_type);
         subscriptionType = (Spinner) findViewById(R.id.create_entry_edit_text_subscription_type);
         notificationDate = (EditText) findViewById(R.id.create_entry_edit_text_notification_date);
-        uploadImage = (Button) findViewById(R.id.create_entry_button_upload_image);
         createEntry = (Button) findViewById(R.id.create_entry_submit_submission);
         cancelEntry = (Button) findViewById(R.id.create_entry_cancel_submission);
 
         String[] categories = {"Subscription", "Bills", "Investments", "Income"};
-        ArrayAdapter<String> selectCategories = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categories);
+        ArrayAdapter<String> selectCategories = new ArrayAdapter(this, R.layout.spinner_item, categories);
         selectCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category.setAdapter(selectCategories);
         category.setSelection(0);
@@ -96,7 +95,6 @@ public class CreateEntry extends AppCompatActivity {
 
                     cost.setHint("Payment Amount");
                     paymentType.setVisibility(View.GONE);
-                    uploadImage.setVisibility(View.GONE);
                 } else if (parent.getItemAtPosition(position).equals("Subscription")) {
                     categoryName.setHint("Subscription Name");
 
@@ -106,7 +104,6 @@ public class CreateEntry extends AppCompatActivity {
 
                     cost.setHint("Cost");
                     paymentType.setVisibility(View.VISIBLE);
-                    uploadImage.setVisibility(View.VISIBLE);
                 } else if (parent.getItemAtPosition(position).equals("Investments")) {
                     categoryName.setHint("Investments/Stocks Lists");
 
@@ -116,7 +113,6 @@ public class CreateEntry extends AppCompatActivity {
 
                     cost.setHint("Investment Amount");
                     paymentType.setVisibility(View.GONE);
-                    uploadImage.setVisibility(View.GONE);
                 } else if (parent.getItemAtPosition(position).equals("Bills")) {
                     categoryName.setHint("Bills");
 
@@ -126,7 +122,6 @@ public class CreateEntry extends AppCompatActivity {
 
                     cost.setHint("Cost");
                     paymentType.setVisibility(View.VISIBLE);
-                    uploadImage.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -176,7 +171,7 @@ public class CreateEntry extends AppCompatActivity {
         });
 
         String[] notificationType = {"Daily", "Weekly", "Bi-Weekly", "Monthly"};
-        ArrayAdapter<String> selectNotificationType = new ArrayAdapter(this, android.R.layout.simple_list_item_1, notificationType);
+        ArrayAdapter<String> selectNotificationType = new ArrayAdapter(this, R.layout.spinner_item, notificationType);
         selectNotificationType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subscriptionType.setAdapter(selectNotificationType);
         subscriptionType.setSelection(0);

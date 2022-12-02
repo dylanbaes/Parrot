@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/nestedItemTv"
         android:text="Bills"
-        android:textColor="#8c8c8c"
+        android:textColor="@color/main_text_color"
         android:textSize="16sp"
         android:layout_gravity="center"
         android:textStyle="bold"/>

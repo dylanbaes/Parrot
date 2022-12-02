@@ -9,6 +9,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import com.CSE3311.parrot.Models.Expense;
 import com.CSE3311.parrot.Models.User;
 import com.CSE3311.parrot.Models.Income;
+import com.github.mikephil.charting.components.Legend;
 import com.parse.GetCallback;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -68,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         Context context = this;
         income = findViewById(R.id.incomeTextView);
         expenses = findViewById(R.id.expensesTextView);
-
 
 
         ParseObject.registerSubclass(User.class);
@@ -198,6 +199,10 @@ public class MainActivity extends AppCompatActivity {
         pieChart.setCenterTextSize(24);
         pieChart.getDescription().setEnabled(false);
 
+        Legend l = pieChart.getLegend();
+        l.setTextColor(getResources().getColor(R.color.main_text_color));
+        l.setTextSize(14);
+
         // Offset the pie chart
         pieChart.setExtraLeftOffset(10);
         pieChart.setExtraRightOffset(20);
@@ -246,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
         pieChartObject.setValueFormatter(new PercentFormatter(pieChart));
         pieChartObject.setValueTextSize(16f);
         pieChartObject.setValueTextColor(Color.BLACK);
+
 
         pieChart.setData(pieChartObject);
         pieChart.invalidate(); // refresh the pie chart

@@ -15,6 +15,7 @@
 
         <TextView
             android:id="@+id/create_entry_text_view_create_entry_header"
+            android:textColor="@color/main_text_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -28,6 +29,7 @@
             android:id="@+id/create_entry_edit_text_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/main_text_color"
             android:layout_below="@id/create_entry_text_view_create_entry_header"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
@@ -40,6 +42,7 @@
             android:id="@+id/create_entry_edit_text_category_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/main_text_color"
             android:layout_below="@+id/create_entry_edit_text_category"
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="20dp"
@@ -51,6 +54,7 @@
             android:id="@+id/create_entry_edit_text_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/main_text_color"
             android:layout_below="@+id/create_entry_edit_text_category_name"
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="20dp"
@@ -62,6 +66,7 @@
             android:id="@+id/create_entry_row_select_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/main_text_color"
             android:layout_below="@id/create_entry_edit_text_description"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
@@ -71,6 +76,7 @@
                 android:id="@+id/create_entry_edit_text_start_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textColor="@color/main_text_color"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:hint="Start Date" />
@@ -79,6 +85,7 @@
                 android:id="@+id/create_entry_edit_text_end_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textColor="@color/main_text_color"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:hint="End Date" />
@@ -89,6 +96,7 @@
             android:id="@+id/create_entry_edit_text_cost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/main_text_color"
             android:layout_below="@id/create_entry_row_select_date"
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="20dp"
@@ -101,6 +109,7 @@
             android:id="@+id/create_entry_edit_text_payment_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/main_text_color"
             android:layout_below="@id/create_entry_edit_text_cost"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
@@ -110,6 +119,7 @@
         <Spinner
             android:id="@+id/create_entry_edit_text_subscription_type"
             android:layout_width="match_parent"
+            android:textColor="@color/main_text_color"
             android:layout_height="wrap_content"
             android:layout_below="@id/create_entry_edit_text_payment_type"
             android:layout_marginLeft="20dp"
@@ -123,30 +133,20 @@
             android:id="@+id/create_entry_edit_text_notification_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/main_text_color"
             android:layout_below="@id/create_entry_edit_text_subscription_type"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
             android:hint="Set a Notification Date" />
 
-        <Button
-            android:id="@+id/create_entry_button_upload_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/create_entry_edit_text_notification_date"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:text="Upload Icon" />
 
 
         <LinearLayout
             android:id="@+id/create_entry_row_submit_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/create_entry_button_upload_image"
+            android:layout_below="@id/create_entry_edit_text_notification_date"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp">
@@ -155,6 +155,8 @@
                 android:id="@+id/create_entry_cancel_submission"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/secondary_color"
+                android:textColor="@color/secondary_text_color"
                 android:layout_marginEnd="25dp"
                 android:layout_weight="1"
                 android:text="Cancel" />
@@ -163,6 +165,8 @@
                 android:id="@+id/create_entry_submit_submission"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/third_color"
+                android:textColor="@color/secondary_text_color"
                 android:layout_marginStart="25dp"
                 android:layout_weight="1"
                 android:text="Submit" />

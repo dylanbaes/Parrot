@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
             <TextView
                 android:id="@+id/itemTv"
                 android:layout_width="wrap_content"
@@ -26,7 +27,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="Category"
-                android:textColor="@color/black"
+                android:textColor="@color/main_text_color"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

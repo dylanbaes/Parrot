@@ -46,8 +46,6 @@ public class each_category extends AppCompatActivity {
                         startActivity(new Intent(each_category.this, MainActivity.class));
                         overridePendingTransition(0,0);
                         return true;
-                    case R.id.notification_from_setting:
-                        return true;
                 }
                 return false;
             }

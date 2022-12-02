@@ -10,9 +10,9 @@
         android:id="@+id/logoutButton"
         android:layout_width="150dp"
         android:layout_height="70dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/primary_color"
         android:text="@string/Logout"
-        android:textColor="@color/black"
+        android:textColor="@color/secondary_text_color"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,5 +28,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation_setting"/>
+
+    <Switch
+        android:id="@+id/light_dark_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Light/Dark"
+        app:layout_constraintBottom_toTopOf="@+id/logoutButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
