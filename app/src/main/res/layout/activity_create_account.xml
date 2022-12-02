@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@drawable/background"
 
     tools:context=".MainActivity">
 
@@ -14,10 +13,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/createaccount"
         android:text="Create Account"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="35sp"
         android:textStyle="bold"
         android:layout_margin="50dp"
+        android:backgroundTint="@color/black"
         android:gravity="center"/>
 
     <EditText
@@ -29,11 +29,11 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:background="#30ffffff"
+        android:background="@drawable/rounded_corner"
         android:hint="First Name"
         android:padding="20dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
 
     <EditText
         android:id="@+id/lastname"
@@ -44,24 +44,26 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:background="#30ffffff"
+        android:background="@drawable/rounded_corner"
         android:hint="Last Name"
         android:padding="20dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
 
     <EditText
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/email"
         android:layout_below="@id/firstname"
-        android:background="#30ffffff"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded_corner"
         android:hint="Email"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        android:layout_margin="10dp"
         android:padding="20dp"
-        />
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
 
     <EditText
         android:id="@+id/password"
@@ -72,11 +74,11 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:background="#30ffffff"
+        android:background="@drawable/rounded_corner"
         android:hint="Password"
         android:padding="20dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
 
     <EditText
         android:id="@+id/confirmpass"
@@ -87,11 +89,11 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:background="#30ffffff"
+        android:background="@drawable/rounded_corner"
         android:hint="Confirm Password"
         android:padding="20dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/createaccountbtn"
@@ -104,6 +106,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="@color/teal_200"
+        android:textColor="@color/black"
         android:text="CREATE ACCOUNT" />
 
     <com.google.android.material.button.MaterialButton
@@ -116,6 +119,7 @@
         android:layout_marginTop="92dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
+        android:textColor="@color/black"
         android:backgroundTint="@color/teal_200"
         android:text="CANCEL" />
 

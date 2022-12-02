@@ -102,8 +102,6 @@ public class Registration extends AppCompatActivity {
                         @Override
                         public void done(com.parse.ParseException e) {
                             if (e == null) {
-                                //Toast.makeText(getApplicationContext(), "Registration Successful!" + "\n"  + "Please verify your email.", Toast.LENGTH_LONG).show();
-                                //startActivity(new Intent(create_account.this, Login.class));
 
                                 showAlert("Verify Email", "Please verify you email before logging in.", false);
                                 ParseObject.registerSubclass(User.class);
