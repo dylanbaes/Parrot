@@ -8,6 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="setting_background_color">#FFFFFFFF</color>
+    <color name="setting_card_color">#FFFFFF</color>
+    <color name="setting_icon_color">#222745</color>
+
     <color name="background_color">#FFFFFFFF</color>
     <color name="main_text_color">#000000</color>
     <color name="spinner_text_color">#000000</color>
