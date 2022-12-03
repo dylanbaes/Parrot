@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         mainRecyclerView.setHasFixedSize(true);
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        List<String> expenseList = new ArrayList<>();
+        ArrayList<String> expenseList = new ArrayList<>();
         List<String> incomeList = new ArrayList<>();
 
         if (ParseUser.getCurrentUser().isAuthenticated()) {
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
                         // Pie Chart Implementation
                         pieChart = findViewById(R.id.mainPieChart);
-                        pieChartSetup(eachCategory);
+                        pieChartSetup(userInfo, eachCategory);
                         pieChartData(eachCategoryValue, eachCategory);
                     } else {
                         userInfo = null;
@@ -170,8 +170,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.notification:
-                    case R.id.update:
+                    case R.id.view:
                         return true;
                     case R.id.create:
                         Intent createEntryIntent = new Intent(MainActivity.this, CreateEntry.class);
@@ -190,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    private void pieChartSetup(ArrayList<String> eachCategory){
+    private void pieChartSetup(User userInfo, ArrayList<String> eachCategory){
         pieChart.setDrawHoleEnabled(true);
         pieChart.setUsePercentValues(true);
         pieChart.setEntryLabelColor(14);
@@ -214,9 +213,28 @@ public class MainActivity extends AppCompatActivity {
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                String categoryName = String.valueOf(eachCategory.get((int)h.getX()));
+                String categoryType = String.valueOf(eachCategory.get((int)h.getX()));
                 Intent intent = new Intent(MainActivity.this, each_category.class);
-                intent.putExtra("CATEGORY_NAME",categoryName);
+                userExpenses = userInfo.getExpenseLists();
+                ArrayList<String> expenseNameList = new ArrayList<>();
+                ArrayList<String> expenseValueList = new ArrayList<>();
+                ArrayList<String> expenseList = new ArrayList<>();
+                double totalCost = 0;
+
+                for (int i = 0; i < userExpenses.size(); i++) {
+                    if(userExpenses.get(i).getCategoryType().equals(categoryType)){
+                        expenseNameList.add(userExpenses.get(i).getCategoryName());
+                        expenseValueList.add(userExpenses.get(i).getCost());
+                        totalCost += Double.parseDouble(userExpenses.get(i).getCost());
+                    }
+                }
+
+                for (int i = 0; i < expenseNameList.size(); i++) {
+                    expenseList.add(expenseNameList.get(i) + ":   $" + expenseValueList.get(i));
+                }
+                intent.putExtra("CATEGORY_TYPE",categoryType);
+                intent.putExtra("EXPENSE_LIST",expenseList);
+                intent.putExtra("TOTAL_COST",(String.valueOf(totalCost)));
                 startActivity(intent);
             }
 

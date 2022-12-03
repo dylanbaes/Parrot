@@ -65,8 +65,6 @@ public class Setting extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         finish();
                         return true;
-                    case R.id.notification_from_setting:
-                        return true;
                 }
                 return false;
             }
