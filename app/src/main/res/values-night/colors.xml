@@ -2,9 +2,9 @@
 
 <resources>
 
-    <color name="setting_background_color">#FFFFFFFF</color>
+    <color name="setting_background_color">#2d3e50</color>
     <color name="setting_card_color">#222745</color>
-    <color name="setting_icon_color">#222745</color>
+    <color name="setting_icon_color">#fff</color>
 
     <color name="background_color">#222745</color>
     <color name="main_text_color">#ecf0f1</color>
