@@ -102,7 +102,6 @@ public class Registration extends AppCompatActivity {
                         @Override
                         public void done(com.parse.ParseException e) {
                             if (e == null) {
-
                                 showAlert("Verify Email", "Please verify you email before logging in.", false);
                                 ParseObject.registerSubclass(User.class);
                                 User userInfo = new User();

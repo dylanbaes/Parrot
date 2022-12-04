@@ -179,7 +179,9 @@ public class MainActivity extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.setting:
-                        startActivity(new Intent(MainActivity.this, Setting.class));
+                        Intent settingIntent = new Intent(MainActivity.this, Setting.class);
+                        settingIntent.putExtra("userInfo",userInfo);
+                        startActivity(settingIntent);
                         overridePendingTransition(0,0);
                         return true;
                 }
