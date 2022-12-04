@@ -3,9 +3,12 @@ package com.CSE3311.parrot;
 import com.CSE3311.parrot.notification_class;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.Notification;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -39,6 +42,9 @@ public class CreateEntry extends AppCompatActivity {
     private ParseUser user;
     private User userInfo;
 
+    public final static String channel_id = "Parrot Notification";
+    private NotificationManagerCompat notificationManager;
+
     private Spinner category;
     private EditText categoryName;
     private EditText description;
@@ -59,6 +65,8 @@ public class CreateEntry extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_entry);
         Bundle extra = getIntent().getExtras();
+
+        notificationManager = NotificationManagerCompat.from(this);
 
         user = ParseUser.getCurrentUser();
         userInfo = (User) extra.get("userInfo");
@@ -269,6 +277,20 @@ public class CreateEntry extends AppCompatActivity {
                     expense.setNotificationDate(notificationDate.getText().toString());
                     userInfo.addExpense(expense);
                 }
+
+                Notification builder = new NotificationCompat.Builder(CreateEntry.this, channel_id)
+                        .setSmallIcon(R.drawable.ic_baseline_notifications_active_24)
+                        .setContentTitle("Parrot")
+                        .setContentText("You have successfully created an entry!")
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText("Your subscription is due next month"))
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                        .setAutoCancel(true)
+                        .build();
+
+                notificationManager.notify(1, builder);
+
                 Toast.makeText(getApplicationContext(), "Create Entry Successful!", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(CreateEntry.this, MainActivity.class));
                 finish();
