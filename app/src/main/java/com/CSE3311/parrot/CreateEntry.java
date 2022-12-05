@@ -16,6 +16,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -257,7 +259,10 @@ public class CreateEntry extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ParseObject.registerSubclass(User.class);
+                // by default the object is updatable on the database
                 boolean update = true;
+
+                // check if all the condition matches, otherwise set update value to value
                 if (categoryName.getText().toString().isEmpty()) {
                     update=false;
                     categoryName.setError("Please don't leave category name empty");
@@ -287,9 +292,13 @@ public class CreateEntry extends AppCompatActivity {
                     income.setPaymentAmount(cost.getText().toString());
                     income.setPaymentType(subscriptionType.getSelectedItem().toString());
                     income.setNotificationDate(notificationDate.getText().toString());
-                    userInfo.addIncome(income);
+                    // this is an atomic operation: it updates both local and database, so we only
+                    // update once the update is set for a go
+                    if (update)
+                        userInfo.addIncome(income);
                 } else {
                     Expense expense = new Expense();
+                    // for expense we gotta check for new parameters too
                     if (endDate.getText().toString().isEmpty()) {
                         update=false;
                         endDate.setError("Please select start date");
@@ -307,7 +316,10 @@ public class CreateEntry extends AppCompatActivity {
                     expense.setPaymentType(paymentType.getText().toString());
                     expense.setNotificationType(subscriptionType.getSelectedItem().toString());
                     expense.setNotificationDate(notificationDate.getText().toString());
-                    userInfo.addExpense(expense);
+                    // this is an atomic operation: it updates both local and database, so we only
+                    // update once the update is set for a go
+                    if (update)
+                        userInfo.addExpense(expense);
                 }
 
                 if (update) {
