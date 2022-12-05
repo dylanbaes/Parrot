@@ -171,6 +171,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.view:
+                        Intent listViewIntent = new Intent(MainActivity.this, ViewList.class);
+                        listViewIntent.putExtra("userInfo",userInfo);
+                        startActivity(listViewIntent);
+                        overridePendingTransition(0,0);
                         return true;
                     case R.id.create:
                         Intent createEntryIntent = new Intent(MainActivity.this, CreateEntry.class);
