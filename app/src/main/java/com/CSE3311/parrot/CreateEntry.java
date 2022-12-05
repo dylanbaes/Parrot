@@ -16,6 +16,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -257,11 +259,17 @@ public class CreateEntry extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ParseObject.registerSubclass(User.class);
+                // by default the object is updatable on the database
                 boolean update = true;
-                Expense expense = new Expense();
+
+                // check if all the condition matches, otherwise set update value to value
                 if (categoryName.getText().toString().isEmpty()) {
                     update=false;
                     categoryName.setError("Please don't leave category name empty");
+                }
+                if (description.getText().toString().isEmpty()) {
+                    update=false;
+                    description.setError("Please fill the description field");
                 }
                 if (startDate.getText().toString().isEmpty()) {
                     update=false;
@@ -276,40 +284,45 @@ public class CreateEntry extends AppCompatActivity {
                     notificationDate.setError("Please select the notification date");
                 }
 
-                if (update) {
-
-                    if (category.getSelectedItem().equals("Income")) {
-                        Income income = new Income();
-                        income.setIncomeName(categoryName.getText().toString());
-                        income.setDescription(description.getText().toString());
-                        income.setPaymentDate(startDate.getText().toString());
-                        income.setPaymentAmount(cost.getText().toString());
-                        income.setPaymentType(subscriptionType.getSelectedItem().toString());
-                        income.setNotificationDate(notificationDate.getText().toString());
+                if (category.getSelectedItem().equals("Income")) {
+                    Income income = new Income();
+                    income.setIncomeName(categoryName.getText().toString());
+                    income.setDescription(description.getText().toString());
+                    income.setPaymentDate(startDate.getText().toString());
+                    income.setPaymentAmount(cost.getText().toString());
+                    income.setPaymentType(subscriptionType.getSelectedItem().toString());
+                    income.setNotificationDate(notificationDate.getText().toString());
+                    // this is an atomic operation: it updates both local and database, so we only
+                    // update once the update is set for a go
+                    if (update)
                         userInfo.addIncome(income);
-                    } else {
-
-                        if (endDate.getText().toString().isEmpty()) {
-                            update=false;
-                            endDate.setError("Please select start date");
-                        }
-                        if (paymentType.getText().toString().isEmpty()) {
-                            update=false;
-                            paymentType.setError("Please add payment type");
-                        }
-                        expense.setCategoryType(category.getSelectedItem().toString());
-                        expense.setCategoryName(categoryName.getText().toString());
-                        expense.setDescription(description.getText().toString());
-                        expense.setStartDate(startDate.getText().toString());
-                        expense.setEndDate(endDate.getText().toString());
-                        expense.setCost(cost.getText().toString());
-                        expense.setPaymentType(paymentType.getText().toString());
-                        expense.setNotificationType(subscriptionType.getSelectedItem().toString());
-                        expense.setNotificationDate(notificationDate.getText().toString());
-                        userInfo.addExpense(expense);
+                } else {
+                    Expense expense = new Expense();
+                    // for expense we gotta check for new parameters too
+                    if (endDate.getText().toString().isEmpty()) {
+                        update=false;
+                        endDate.setError("Please select start date");
                     }
+                    if (paymentType.getText().toString().isEmpty()) {
+                        update=false;
+                        paymentType.setError("Please add payment type");
+                    }
+                    expense.setCategoryType(category.getSelectedItem().toString());
+                    expense.setCategoryName(categoryName.getText().toString());
+                    expense.setDescription(description.getText().toString());
+                    expense.setStartDate(startDate.getText().toString());
+                    expense.setEndDate(endDate.getText().toString());
+                    expense.setCost(cost.getText().toString());
+                    expense.setPaymentType(paymentType.getText().toString());
+                    expense.setNotificationType(subscriptionType.getSelectedItem().toString());
+                    expense.setNotificationDate(notificationDate.getText().toString());
+                    // this is an atomic operation: it updates both local and database, so we only
+                    // update once the update is set for a go
+                    if (update)
+                        userInfo.addExpense(expense);
+                }
 
-
+                if (update) {
                     Notification builder = new NotificationCompat.Builder(CreateEntry.this, channel_id)
                             .setSmallIcon(R.drawable.ic_parrot_logo)
                             .setContentTitle("Parrot")

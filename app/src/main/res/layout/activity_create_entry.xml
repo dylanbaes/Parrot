@@ -94,15 +94,16 @@
 
         <EditText
             android:id="@+id/create_entry_edit_text_cost"
+            android:drawableLeft="@drawable/ic_baseline_attach_money_24"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/main_text_color"
             android:layout_below="@id/create_entry_row_select_date"
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:hint="Cost" />
+            android:hint="Cost"
+            android:textColor="@color/main_text_color" />
 
 
         <EditText
