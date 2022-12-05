@@ -143,7 +143,7 @@ public class Setting extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //What ever you want to do with the value
                         String lNameString = editFieldValue.getText().toString();
-                        userInfo.setfName(lNameString);
+                        userInfo.setlName(lNameString);
                     }
                 });
                 editField.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
