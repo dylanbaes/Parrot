@@ -257,6 +257,28 @@ public class CreateEntry extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ParseObject.registerSubclass(User.class);
+                boolean update = true;
+                if (categoryName.getText().toString().isEmpty()) {
+                    update=false;
+                    categoryName.setError("Please don't leave category name empty");
+                }
+                if (description.getText().toString().isEmpty()) {
+                    update=false;
+                    description.setError("Please fill the description field");
+                }
+                if (startDate.getText().toString().isEmpty()) {
+                    update=false;
+                    startDate.setError("Please select start date");
+                }
+                if (cost.getText().toString().isEmpty()) {
+                    update=false;
+                    cost.setError("Please add numeric cost value");
+                }
+                if (notificationDate.getText().toString().isEmpty()) {
+                    update=false;
+                    notificationDate.setError("Please select the notification date");
+                }
+
                 if (category.getSelectedItem().equals("Income")) {
                     Income income = new Income();
                     income.setIncomeName(categoryName.getText().toString());
@@ -268,6 +290,14 @@ public class CreateEntry extends AppCompatActivity {
                     userInfo.addIncome(income);
                 } else {
                     Expense expense = new Expense();
+                    if (endDate.getText().toString().isEmpty()) {
+                        update=false;
+                        endDate.setError("Please select start date");
+                    }
+                    if (paymentType.getText().toString().isEmpty()) {
+                        update=false;
+                        paymentType.setError("Please add payment type");
+                    }
                     expense.setCategoryType(category.getSelectedItem().toString());
                     expense.setCategoryName(categoryName.getText().toString());
                     expense.setDescription(description.getText().toString());
@@ -280,37 +310,39 @@ public class CreateEntry extends AppCompatActivity {
                     userInfo.addExpense(expense);
                 }
 
-                Notification builder = new NotificationCompat.Builder(CreateEntry.this, channel_id)
-                        .setSmallIcon(R.drawable.ic_parrot_logo)
-                        .setContentTitle("Parrot")
-                        .setContentText("You have successfully created an entry!")
-                        .setStyle(new NotificationCompat.BigTextStyle()
-                            .bigText("Your subscription is due next month"))
-                        .setPriority(NotificationCompat.PRIORITY_HIGH)
-                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                        .setAutoCancel(true)
-                        .build();
+                if (update) {
+                    Notification builder = new NotificationCompat.Builder(CreateEntry.this, channel_id)
+                            .setSmallIcon(R.drawable.ic_parrot_logo)
+                            .setContentTitle("Parrot")
+                            .setContentText("You have successfully created an entry!")
+                            .setStyle(new NotificationCompat.BigTextStyle()
+                                    .bigText("Your subscription is due next month"))
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                            .setAutoCancel(true)
+                            .build();
 
-                notificationManager.notify(1, builder);
+                    notificationManager.notify(1, builder);
 
-                //Toast.makeText(getApplicationContext(), "Reminder Set!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Reminder Set!", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(CreateEntry.this,Receiver.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(CreateEntry.this, 0, intent, 0 );
+                    Intent intent = new Intent(CreateEntry.this, Receiver.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(CreateEntry.this, 0, intent, 0);
 
-                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-                long timeAtButtonClick = System.currentTimeMillis();
+                    long timeAtButtonClick = System.currentTimeMillis();
 
-                long tenSecondsInMillis = 1000 * 10;
-                // ten seconds
+                    long tenSecondsInMillis = 1000 * 10;
+                    // ten seconds
 
-                alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtButtonClick + tenSecondsInMillis,pendingIntent);
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtButtonClick + tenSecondsInMillis, pendingIntent);
 
 
-                Toast.makeText(getApplicationContext(), "Create Entry Successful!", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(CreateEntry.this, MainActivity.class));
-                finish();
+                    Toast.makeText(getApplicationContext(), "Create Entry Successful!", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(CreateEntry.this, MainActivity.class));
+                    finish();
+                }
             }
         });
 
