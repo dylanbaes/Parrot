@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.CSE3311.parrot.Models.Expense;
 import com.CSE3311.parrot.Models.User;
@@ -89,9 +90,29 @@ public class MainActivity extends AppCompatActivity {
                     if (e == null) {
                         userInfo = userInformation;
 
-                        // Gather list of expense and income from database
-                        userExpenses = userInfo.getExpenseLists();
-                        userIncome = userInfo.getIncomeLists();
+
+                        try {
+                            // Gather list of expense and income from database
+                            userExpenses = userInfo.getExpenseLists();
+                        } catch (AssertionError error) {
+                            Intent createEntryIntent = new Intent(MainActivity.this, CreateEntry.class);
+                            createEntryIntent.putExtra("userInfo",userInfo);
+                            startActivity(createEntryIntent);
+                            overridePendingTransition(0,0);
+                            Toast.makeText(getApplicationContext(), "Please create a new expense entry.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        try {
+                            userIncome = userInfo.getIncomeLists();
+                        } catch (AssertionError error) {
+                            Intent createEntryIntent = new Intent(MainActivity.this, CreateEntry.class);
+                            createEntryIntent.putExtra("userInfo",userInfo);
+                            startActivity(createEntryIntent);
+                            overridePendingTransition(0,0);
+                            Toast.makeText(getApplicationContext(), "Please create a new income entry.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
 
                         // eachCategoryValue stores the total cost for each category
                         ArrayList<String> eachCategory = new ArrayList<>();
