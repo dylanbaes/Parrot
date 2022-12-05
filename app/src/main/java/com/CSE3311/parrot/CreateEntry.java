@@ -7,8 +7,10 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -279,7 +281,7 @@ public class CreateEntry extends AppCompatActivity {
                 }
 
                 Notification builder = new NotificationCompat.Builder(CreateEntry.this, channel_id)
-                        .setSmallIcon(R.drawable.ic_baseline_notifications_active_24)
+                        .setSmallIcon(R.drawable.ic_parrot_logo)
                         .setContentTitle("Parrot")
                         .setContentText("You have successfully created an entry!")
                         .setStyle(new NotificationCompat.BigTextStyle()
@@ -290,6 +292,21 @@ public class CreateEntry extends AppCompatActivity {
                         .build();
 
                 notificationManager.notify(1, builder);
+
+                //Toast.makeText(getApplicationContext(), "Reminder Set!", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(CreateEntry.this,Receiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(CreateEntry.this, 0, intent, 0 );
+
+                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+                long timeAtButtonClick = System.currentTimeMillis();
+
+                long tenSecondsInMillis = 1000 * 10;
+                // ten seconds
+
+                alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtButtonClick + tenSecondsInMillis,pendingIntent);
+
 
                 Toast.makeText(getApplicationContext(), "Create Entry Successful!", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(CreateEntry.this, MainActivity.class));

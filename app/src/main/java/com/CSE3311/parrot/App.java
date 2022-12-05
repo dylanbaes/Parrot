@@ -18,7 +18,7 @@ public class App extends Application{
         {
             CharSequence name = getString(R.string.channel_name);
             String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(notification_class.channel_id, name, importance);
             channel.setDescription(description);
 
