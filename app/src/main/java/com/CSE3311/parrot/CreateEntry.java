@@ -258,13 +258,10 @@ public class CreateEntry extends AppCompatActivity {
             public void onClick(View view) {
                 ParseObject.registerSubclass(User.class);
                 boolean update = true;
+                Expense expense = new Expense();
                 if (categoryName.getText().toString().isEmpty()) {
                     update=false;
                     categoryName.setError("Please don't leave category name empty");
-                }
-                if (description.getText().toString().isEmpty()) {
-                    update=false;
-                    description.setError("Please fill the description field");
                 }
                 if (startDate.getText().toString().isEmpty()) {
                     update=false;
@@ -279,38 +276,40 @@ public class CreateEntry extends AppCompatActivity {
                     notificationDate.setError("Please select the notification date");
                 }
 
-                if (category.getSelectedItem().equals("Income")) {
-                    Income income = new Income();
-                    income.setIncomeName(categoryName.getText().toString());
-                    income.setDescription(description.getText().toString());
-                    income.setPaymentDate(startDate.getText().toString());
-                    income.setPaymentAmount(cost.getText().toString());
-                    income.setPaymentType(subscriptionType.getSelectedItem().toString());
-                    income.setNotificationDate(notificationDate.getText().toString());
-                    userInfo.addIncome(income);
-                } else {
-                    Expense expense = new Expense();
-                    if (endDate.getText().toString().isEmpty()) {
-                        update=false;
-                        endDate.setError("Please select start date");
-                    }
-                    if (paymentType.getText().toString().isEmpty()) {
-                        update=false;
-                        paymentType.setError("Please add payment type");
-                    }
-                    expense.setCategoryType(category.getSelectedItem().toString());
-                    expense.setCategoryName(categoryName.getText().toString());
-                    expense.setDescription(description.getText().toString());
-                    expense.setStartDate(startDate.getText().toString());
-                    expense.setEndDate(endDate.getText().toString());
-                    expense.setCost(cost.getText().toString());
-                    expense.setPaymentType(paymentType.getText().toString());
-                    expense.setNotificationType(subscriptionType.getSelectedItem().toString());
-                    expense.setNotificationDate(notificationDate.getText().toString());
-                    userInfo.addExpense(expense);
-                }
-
                 if (update) {
+
+                    if (category.getSelectedItem().equals("Income")) {
+                        Income income = new Income();
+                        income.setIncomeName(categoryName.getText().toString());
+                        income.setDescription(description.getText().toString());
+                        income.setPaymentDate(startDate.getText().toString());
+                        income.setPaymentAmount(cost.getText().toString());
+                        income.setPaymentType(subscriptionType.getSelectedItem().toString());
+                        income.setNotificationDate(notificationDate.getText().toString());
+                        userInfo.addIncome(income);
+                    } else {
+
+                        if (endDate.getText().toString().isEmpty()) {
+                            update=false;
+                            endDate.setError("Please select start date");
+                        }
+                        if (paymentType.getText().toString().isEmpty()) {
+                            update=false;
+                            paymentType.setError("Please add payment type");
+                        }
+                        expense.setCategoryType(category.getSelectedItem().toString());
+                        expense.setCategoryName(categoryName.getText().toString());
+                        expense.setDescription(description.getText().toString());
+                        expense.setStartDate(startDate.getText().toString());
+                        expense.setEndDate(endDate.getText().toString());
+                        expense.setCost(cost.getText().toString());
+                        expense.setPaymentType(paymentType.getText().toString());
+                        expense.setNotificationType(subscriptionType.getSelectedItem().toString());
+                        expense.setNotificationDate(notificationDate.getText().toString());
+                        userInfo.addExpense(expense);
+                    }
+
+
                     Notification builder = new NotificationCompat.Builder(CreateEntry.this, channel_id)
                             .setSmallIcon(R.drawable.ic_parrot_logo)
                             .setContentTitle("Parrot")
