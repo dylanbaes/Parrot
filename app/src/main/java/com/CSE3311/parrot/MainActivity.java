@@ -43,6 +43,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.text.DecimalFormat;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         // eachCategoryValue stores the total cost for each category
+
                         ArrayList<String> eachCategory = new ArrayList<>();
                         ArrayList<Double> eachCategoryValue = new ArrayList<>();
 
@@ -151,8 +153,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
 
-
-
                         double totalIncome = 0;
 
                         for(int i = 0; i < userIncome.size(); i++) {
@@ -168,11 +168,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                         expenses.setText(new StringBuilder().append("Expenses: $").append(String.format("%.2f", totalExpenses)));
 
-
                         // Pie Chart Implementation
                         pieChart = findViewById(R.id.mainPieChart);
                         pieChartSetup(userInfo, eachCategory);
                         pieChartData(eachCategoryValue, eachCategory);
+
                     } else {
                         userInfo = null;
                     }
@@ -216,6 +216,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
     private void pieChartSetup(User userInfo, ArrayList<String> eachCategory){
         pieChart.setDrawHoleEnabled(true);
         pieChart.setUsePercentValues(true);
@@ -261,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 intent.putExtra("CATEGORY_TYPE",categoryType);
                 intent.putExtra("EXPENSE_LIST",expenseList);
-                intent.putExtra("TOTAL_COST",(String.valueOf(totalCost)));
+                intent.putExtra("TOTAL_COST",(new DecimalFormat("#.0#").format(totalCost)));
                 startActivity(intent);
             }
 
@@ -277,6 +279,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < eachCategory.size(); i++) {
             entries.add(new PieEntry(Float.parseFloat(eachCategoryValue.get(i).toString()), eachCategory.get(i)));
         }
+
 
         ArrayList<Integer> colors = new ArrayList<>();
         for(int color: ColorTemplate.MATERIAL_COLORS){
