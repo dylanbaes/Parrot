@@ -81,6 +81,7 @@ public class updateExpense extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), ViewExpense.class);
                 intent.putExtra("uuid", expenses.get(position).getUuid());
                 intent.putExtra("expenses", expenses);
+                intent.putExtra("userInfo", userInfo);
                 startActivity(intent);
             }
         };

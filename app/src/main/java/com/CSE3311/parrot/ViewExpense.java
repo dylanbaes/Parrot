@@ -1,10 +1,13 @@
 package com.CSE3311.parrot;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.CSE3311.parrot.Models.Expense;
+import com.CSE3311.parrot.Models.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -29,17 +33,22 @@ public class ViewExpense extends AppCompatActivity {
     private TextView notificationDate;
     private TextView cost;
     private ArrayList<Expense> expense;
+    private AlertDialog.Builder editField;
+    private EditText editFieldValue;
+    User userInfo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entry_view_expense);
-        String uuid = "not set";
+        String uuid ="not set";
+        editFieldValue = new EditText(ViewExpense.this);
 
         Bundle extras = getIntent().getExtras();
         if(extras!=null) {
             uuid = extras.getString("uuid");
             expense = (ArrayList<Expense>)extras.get("expenses");
+            userInfo = (User)extras.get("userInfo");
         }
 
         Expense entry;
@@ -83,6 +92,131 @@ public class ViewExpense extends AppCompatActivity {
                 }
                 return false;
             }
+        });
+
+        String finalUuid = uuid;
+        categoryName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editField = new AlertDialog.Builder(ViewExpense.this);
+                editField.setTitle("Edit Category Name:");
+                editField.setView(editFieldValue);
+                editField.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //What ever you want to do with the value
+                        String category = editFieldValue.getText().toString();
+                        entry.setCategoryName(category);
+                        userInfo.updateExpense(entry);
+//                        for (int i = 0; i < expense.size(); i++) {
+//                            if (expense.get(i).getUuid().equals(finalUuid)) {
+//                                userInfo.getExpenseLists().get(i).setCategoryName(category);
+//                            }
+//                        }
+                    }
+                });
+                editField.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // what ever you want to do with No option.
+                        dialog.cancel();
+                        editFieldValue = new EditText(ViewExpense.this);
+                    }
+                });
+                editField.show();
+            }
+
+        });
+
+        description.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editField = new AlertDialog.Builder(ViewExpense.this);
+                editField.setTitle("Edit Description:");
+                editField.setView(editFieldValue);
+                editField.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //What ever you want to do with the value
+                        String update = editFieldValue.getText().toString();
+                        entry.setDescription(update);
+                        userInfo.updateExpense(entry);
+//                        for (int i = 0; i < expense.size(); i++) {
+//                            if (expense.get(i).getUuid().equals(finalUuid)) {
+//                                userInfo.getExpenseLists().get(i).setCategoryName(category);
+//                            }
+//                        }
+                    }
+                });
+                editField.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // what ever you want to do with No option.
+                        dialog.cancel();
+                        editFieldValue = new EditText(ViewExpense.this);
+                    }
+                });
+                editField.show();
+            }
+
+        });
+
+        paymentType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editField = new AlertDialog.Builder(ViewExpense.this);
+                editField.setTitle("Edit Payment Type:");
+                editField.setView(editFieldValue);
+                editField.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //What ever you want to do with the value
+                        String update = editFieldValue.getText().toString();
+                        entry.setPaymentType(update);
+                        userInfo.updateExpense(entry);
+//                        for (int i = 0; i < expense.size(); i++) {
+//                            if (expense.get(i).getUuid().equals(finalUuid)) {
+//                                userInfo.getExpenseLists().get(i).setCategoryName(category);
+//                            }
+//                        }
+                    }
+                });
+                editField.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // what ever you want to do with No option.
+                        dialog.cancel();
+                        editFieldValue = new EditText(ViewExpense.this);
+                    }
+                });
+                editField.show();
+            }
+
+        });
+
+        cost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editField = new AlertDialog.Builder(ViewExpense.this);
+                editField.setTitle("Edit Cost:");
+                editField.setView(editFieldValue);
+                editField.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //What ever you want to do with the value
+                        String update = editFieldValue.getText().toString();
+                        entry.setCost(update);
+                        userInfo.updateExpense(entry);
+//                        for (int i = 0; i < expense.size(); i++) {
+//                            if (expense.get(i).getUuid().equals(finalUuid)) {
+//                                userInfo.getExpenseLists().get(i).setCategoryName(category);
+//                            }
+//                        }
+                    }
+                });
+                editField.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // what ever you want to do with No option.
+                        dialog.cancel();
+                        editFieldValue = new EditText(ViewExpense.this);
+                    }
+                });
+                editField.show();
+            }
+
         });
 
 
