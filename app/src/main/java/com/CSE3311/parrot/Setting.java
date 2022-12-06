@@ -132,7 +132,7 @@ public class Setting extends AppCompatActivity {
         });
 
         lName = findViewById(R.id.setting_user_lname);
-        lName.setText("Lirst Name: "+userInfo.getlName());
+        lName.setText("First Name: "+userInfo.getlName());
         lName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

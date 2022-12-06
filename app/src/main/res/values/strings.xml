@@ -12,6 +12,8 @@
     <string name="Register">Register</string>
     <string name="Forgot_Password">Forgot Password</string>
     <string name="Logout">Logout</string>
+    <string name="Expenses">Expenses</string>
+    <string name="Income">Income</string>
 
     <string name="title_activity_create_account">create_account</string>
     <!-- Strings used for fragments for navigation -->

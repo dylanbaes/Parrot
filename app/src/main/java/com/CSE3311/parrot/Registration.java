@@ -101,6 +101,7 @@ public class Registration extends AppCompatActivity {
                     user.signUpInBackground(new SignUpCallback() {
                         @Override
                         public void done(com.parse.ParseException e) {
+                            ParseUser.logOut();
                             if (e == null) {
                                 showAlert("Verify Email", "Please verify you email before logging in.", false);
                                 ParseObject.registerSubclass(User.class);

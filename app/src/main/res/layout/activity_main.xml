@@ -20,7 +20,7 @@
 
             <TextView
                 android:id="@+id/incomeTextView"
-                android:layout_width="188dp"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text="Income:"
                 android:textColor="@color/main_text_color"
@@ -34,7 +34,7 @@
 
             <TextView
                 android:id="@+id/expensesTextView"
-                android:layout_width="188dp"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text="Expenses:"
                 android:textColor="@color/main_text_color"

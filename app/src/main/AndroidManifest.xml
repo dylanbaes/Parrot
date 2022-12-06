@@ -26,9 +26,11 @@
             android:label="@string/title_activity_create_account"
             android:theme="@style/Theme.Parrot.NoActionBar" />
         <activity
-            android:name=".ViewList"
-            android:exported="true"
-            android:theme="@style/Theme.Parrot" />
+            android:name=".updateExpense"
+            android:exported="true" />
+        <activity
+            android:name=".updateIncome"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true" />

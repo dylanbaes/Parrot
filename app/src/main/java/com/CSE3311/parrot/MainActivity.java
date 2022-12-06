@@ -5,17 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -186,15 +181,25 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         bottomNavigationView.setSelectedItemId(R.id.setting);
+        bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+
+
+
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.view:
-                        Intent listViewIntent = new Intent(MainActivity.this, ViewList.class);
+                    case R.id.updateExpense:
+                        Intent listViewIntent = new Intent(MainActivity.this, updateExpense.class);
                         listViewIntent.putExtra("userInfo",userInfo);
                         startActivity(listViewIntent);
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.updateIncome:
+                        Intent updateIncomeIntent = new Intent(MainActivity.this, updateIncome.class);
+                        updateIncomeIntent.putExtra("userInfo",userInfo);
+                        startActivity(updateIncomeIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.create:

@@ -9,30 +9,41 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.CSE3311.parrot.Models.Expense;
+import com.CSE3311.parrot.Models.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class ViewList extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class updateExpense extends AppCompatActivity {
 
     private RecyclerView expenseRv;
-    private RecyclerView incomeRv;
     private TextView expenseTitleTv;
-    private TextView incomeTitleTv;
+    private ArrayList<Expense> expenses;
+    private User userInfo;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-        setContentView(R.layout.entries_list_view);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle extra = getIntent().getExtras();
+        userInfo = (User) extra.get("userInfo");
+        expenses = new ArrayList<>();
+        for (int i = 0; i < userInfo.getExpenseLists().size(); i++) {
+            expenses.add(userInfo.getExpenseLists().get(i));
+        }
+        setContentView(R.layout.entries_update_expense);
 
         expenseRv = findViewById(R.id.expenseRecyclerView);
-        incomeRv = findViewById(R.id.incomeRecyclerView);
         expenseTitleTv = findViewById(R.id.expenseTitleTv);
-        incomeTitleTv = findViewById(R.id.incomeTitleTv);
 
-        expenseTitleTv.setText("Expenses");
-        incomeTitleTv.setText("Income");
+        setAdapter();
+
+        //expenseTitleTv.setText(R.string.Expenses);
 
         //Initialization for bottomNavigationView
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -42,7 +53,7 @@ public class ViewList extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.back_from_setting:
-                        startActivity(new Intent(ViewList.this, MainActivity.class));
+                        startActivity(new Intent(updateExpense.this, MainActivity.class));
                         overridePendingTransition(0,0);
                         finish();
                         return true;
@@ -51,5 +62,12 @@ public class ViewList extends AppCompatActivity {
             }
         });
 
+    }
+    private void setAdapter(){
+        expenseAdapter adapter = new expenseAdapter(expenses);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        expenseRv.setLayoutManager(layoutManager);
+        expenseRv.setItemAnimator(new DefaultItemAnimator());
+        expenseRv.setAdapter(adapter);
     }
 }
