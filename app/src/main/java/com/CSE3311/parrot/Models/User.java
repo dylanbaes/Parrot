@@ -82,11 +82,11 @@ public class User extends ParseObject {
 
     public ArrayList<Income> deleteIncome(ArrayList<Income> objects) {
         Gson gson = new Gson();
-        ArrayList<HashMap> toDelete = new ArrayList<>();
+        ArrayList<Map> toDelete = new ArrayList<>();
         for (Income income :objects){
-            toDelete.add(gson.fromJson(gson.toJson(income),HashMap.class));
+            toDelete.add(gson.fromJson(gson.toJson(income),Map.class));
         }
-        this.removeAll("income",toDelete);
+        this.removeAll("incomes",toDelete);
         this.saveInBackground();
         return this.getIncomeLists();
     }
@@ -138,11 +138,11 @@ public class User extends ParseObject {
 
     public ArrayList<Expense> deleteExpense(ArrayList<Expense> objects) {
         Gson gson = new Gson();
-        ArrayList<HashMap> toDelete = new ArrayList<>();
+        ArrayList<Map> toDelete = new ArrayList<>();
         for (Expense expense :objects){
-            toDelete.add(gson.fromJson(gson.toJson(expense),HashMap.class));
+            toDelete.add(gson.fromJson(gson.toJson(expense),Map.class));
         }
-        this.removeAll("expense",toDelete);
+        this.removeAll("expenses",toDelete);
         this.saveInBackground();
         return this.getExpenseLists();
     }
