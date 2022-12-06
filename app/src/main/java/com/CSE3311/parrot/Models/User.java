@@ -91,6 +91,20 @@ public class User extends ParseObject {
         return this.getIncomeLists();
     }
 
+    public ArrayList<Income> updateIncome(Income updatedIncome){
+        ArrayList<Income> toUpdateIncomes = new ArrayList<>();
+        // find the income to be updated based on it uuid
+        for (Income inc: this.getIncomeLists()){
+            if (inc.getUuid().equals(updatedIncome.getUuid())) {
+                toUpdateIncomes.add(updatedIncome);
+                break;
+            }
+        }
+        this.deleteIncome(toUpdateIncomes);
+        this.addIncome(updatedIncome);
+        return this.getIncomeLists();
+    };
+
     public ArrayList<Expense> getExpenseLists() {
         List<HashMap> rawExpenses = getList("expenses");
         ArrayList<Expense> expenses = new ArrayList<>();
@@ -107,6 +121,20 @@ public class User extends ParseObject {
         this.add("expenses", gson.fromJson(gson.toJson(expense), Map.class));
         this.saveInBackground();
     }
+
+    public ArrayList<Expense> updateExpense(Expense updatedExpense){
+        ArrayList<Expense> toUpdateExpense = new ArrayList<>();
+        // find the income to be updated based on it uuid
+        for (Expense exp: this.getExpenseLists()){
+            if (exp.getUuid().equals(updatedExpense.getUuid())) {
+                toUpdateExpense.add(updatedExpense);
+                break;
+            }
+        }
+        this.deleteExpense(toUpdateExpense);
+        this.addExpense(updatedExpense);
+        return this.getExpenseLists();
+    };
 
     public ArrayList<Expense> deleteExpense(ArrayList<Expense> objects) {
         Gson gson = new Gson();
