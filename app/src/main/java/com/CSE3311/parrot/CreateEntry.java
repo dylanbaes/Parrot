@@ -109,12 +109,10 @@ public class CreateEntry extends AppCompatActivity {
                 } else if (parent.getItemAtPosition(position).equals("Investments")) {
                     categoryName.setHint("Investments/Stocks Lists");
 
-                    endDate.setVisibility(View.GONE);
                     startDate.setHint("Buying Date");
                     startDate.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
 
                     cost.setHint("Investment Amount");
-                    paymentType.setVisibility(View.GONE);
                 } else if (parent.getItemAtPosition(position).equals("Bills")) {
                     categoryName.setHint("Bills");
 

@@ -253,10 +253,12 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<String> expenseNameList = new ArrayList<>();
                 ArrayList<String> expenseValueList = new ArrayList<>();
                 ArrayList<String> expenseList = new ArrayList<>();
+                ArrayList<Expense> filteredList = new ArrayList<>();
                 double totalCost = 0;
 
                 for (int i = 0; i < userExpenses.size(); i++) {
                     if(userExpenses.get(i).getCategoryType().equals(categoryType)){
+                        filteredList.add(userExpenses.get(i));
                         expenseNameList.add(userExpenses.get(i).getCategoryName());
                         expenseValueList.add(userExpenses.get(i).getCost());
                         totalCost += Double.parseDouble(userExpenses.get(i).getCost());
@@ -267,7 +269,9 @@ public class MainActivity extends AppCompatActivity {
                     expenseList.add(expenseNameList.get(i) + ":   $" + expenseValueList.get(i));
                 }
                 intent.putExtra("CATEGORY_TYPE",categoryType);
-                intent.putExtra("EXPENSE_LIST",expenseList);
+                intent.putExtra("EXPENSE_LIST",expenseNameList);
+                intent.putExtra("expenses", filteredList);
+                intent.putExtra("userInfo", userInfo);
                 intent.putExtra("TOTAL_COST",(new DecimalFormat("#.0#").format(totalCost)));
                 startActivity(intent);
             }
