@@ -14,7 +14,7 @@ public class Income implements Serializable {
     private String paymentType; // biweekly or monthly
     private String paymentDate;
     private String notificationDate;
-    private String uuid;
+    private final String uuid;
 
     public Income(){
         this.uuid = UUID.randomUUID().toString();
@@ -72,7 +72,4 @@ public class Income implements Serializable {
         return uuid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
 }

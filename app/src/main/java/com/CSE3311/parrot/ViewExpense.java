@@ -144,11 +144,6 @@ public class ViewExpense extends AppCompatActivity {
                         entry.setCategoryName(category);
                         userInfo.updateExpense(entry);
                         categoryName.setText(category);
-//                        for (int i = 0; i < expense.size(); i++) {
-//                            if (expense.get(i).getUuid().equals(finalUuid)) {
-//                                userInfo.getExpenseLists().get(i).setCategoryName(category);
-//                            }
-//                        }
                     }
                 });
                 editField.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
