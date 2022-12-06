@@ -18,8 +18,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/expenseRecyclerView"
-        android:layout_width="399dp"
-        android:layout_height="296dp"
+        android:layout_width="406dp"
+        android:layout_height="630dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
