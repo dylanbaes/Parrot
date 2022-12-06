@@ -83,7 +83,7 @@ public class updateIncome extends AppCompatActivity {
             @Override
             public void onClick(View v, int position) {
                 Intent intent = new Intent(getApplicationContext(), ViewIncome.class);
-                intent.putExtra("incomeName", income.get(position).getIncomeName());
+                intent.putExtra("incomeName", income.get(position).getUuid());
                 intent.putExtra("income", income);
                 startActivity(intent);
             }
