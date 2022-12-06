@@ -64,11 +64,11 @@ public class User extends ParseObject {
     }
 
     public ArrayList<Income> getIncomeLists() {
-        List<HashMap> rawIncomes = getList("incomes");
+        List<Map> rawIncomes = getList("incomes");
         ArrayList<Income> incomes = new ArrayList<>();
         Gson gson = new Gson();
         assert rawIncomes != null:"Error Log: No Income Data";
-        for (HashMap rawIncome : rawIncomes) {
+        for (Map rawIncome : rawIncomes) {
             incomes.add(gson.fromJson(gson.toJson(rawIncome), Income.class));
         }
         return incomes;
@@ -106,11 +106,11 @@ public class User extends ParseObject {
     };
 
     public ArrayList<Expense> getExpenseLists() {
-        List<HashMap> rawExpenses = getList("expenses");
+        List<Map> rawExpenses = getList("expenses");
         ArrayList<Expense> expenses = new ArrayList<>();
         Gson gson = new Gson();
         assert rawExpenses != null:"Error Log: No Expense Data";
-        for (HashMap rawExpense : rawExpenses) {
+        for (Map rawExpense : rawExpenses) {
             expenses.add(gson.fromJson(gson.toJson(rawExpense), Expense.class));
         }
         return expenses;
