@@ -17,6 +17,7 @@ public class Income implements Serializable {
     private String uuid;
 
     public Income(){
+        this.uuid = UUID.randomUUID().toString();
     }
 
     public String getNotificationDate() {
