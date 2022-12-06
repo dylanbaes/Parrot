@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public class ViewExpense extends AppCompatActivity {
     private ArrayList<Expense> expense;
     private AlertDialog.Builder editField;
     private EditText editFieldValue;
+    private Button delete;
     User userInfo;
 
     @Override
@@ -43,6 +45,8 @@ public class ViewExpense extends AppCompatActivity {
         setContentView(R.layout.entry_view_expense);
         String uuid ="not set";
         editFieldValue = new EditText(ViewExpense.this);
+        delete = findViewById(R.id.deletebutton);
+        delete.setText("DELETE");
 
         Bundle extras = getIntent().getExtras();
         if(extras!=null) {
@@ -95,6 +99,38 @@ public class ViewExpense extends AppCompatActivity {
         });
 
         String finalUuid = uuid;
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ViewExpense.this);
+                builder.setCancelable(true);
+                builder.setTitle("Delete Entry");
+                builder.setMessage("Would you like to delete this entry?");
+                builder.setPositiveButton("Confirm",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                userInfo.deleteExpense(entry);
+                                startActivity(new Intent(ViewExpense.this, MainActivity.class));
+                                overridePendingTransition(0,0);
+                                finish();
+                                return;
+                            }
+                        });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+
+            }
+        });
         categoryName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,6 +143,7 @@ public class ViewExpense extends AppCompatActivity {
                         String category = editFieldValue.getText().toString();
                         entry.setCategoryName(category);
                         userInfo.updateExpense(entry);
+                        categoryName.setText(category);
 //                        for (int i = 0; i < expense.size(); i++) {
 //                            if (expense.get(i).getUuid().equals(finalUuid)) {
 //                                userInfo.getExpenseLists().get(i).setCategoryName(category);
@@ -138,6 +175,7 @@ public class ViewExpense extends AppCompatActivity {
                         String update = editFieldValue.getText().toString();
                         entry.setDescription(update);
                         userInfo.updateExpense(entry);
+                        description.setText((update));
 //                        for (int i = 0; i < expense.size(); i++) {
 //                            if (expense.get(i).getUuid().equals(finalUuid)) {
 //                                userInfo.getExpenseLists().get(i).setCategoryName(category);
@@ -169,6 +207,7 @@ public class ViewExpense extends AppCompatActivity {
                         String update = editFieldValue.getText().toString();
                         entry.setPaymentType(update);
                         userInfo.updateExpense(entry);
+                        paymentType.setText((update));
 //                        for (int i = 0; i < expense.size(); i++) {
 //                            if (expense.get(i).getUuid().equals(finalUuid)) {
 //                                userInfo.getExpenseLists().get(i).setCategoryName(category);
@@ -200,6 +239,7 @@ public class ViewExpense extends AppCompatActivity {
                         String update = editFieldValue.getText().toString();
                         entry.setCost(update);
                         userInfo.updateExpense(entry);
+                        cost.setText((update));
 //                        for (int i = 0; i < expense.size(); i++) {
 //                            if (expense.get(i).getUuid().equals(finalUuid)) {
 //                                userInfo.getExpenseLists().get(i).setCategoryName(category);

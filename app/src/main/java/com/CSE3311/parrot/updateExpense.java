@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,6 +43,7 @@ public class updateExpense extends AppCompatActivity {
 
         expenseRv = findViewById(R.id.expenseRecyclerView);
         expenseTitleTv = findViewById(R.id.expenseTitleTv);
+        expenseRv.setNestedScrollingEnabled(false);
 
         setAdapter();
 
@@ -72,6 +74,7 @@ public class updateExpense extends AppCompatActivity {
         expenseRv.setLayoutManager(layoutManager);
         expenseRv.setItemAnimator(new DefaultItemAnimator());
         expenseRv.setAdapter(adapter);
+        ViewCompat.setNestedScrollingEnabled(expenseRv, false);
     }
 
     private void setOnClickListener() {
