@@ -1,7 +1,5 @@
 package com.CSE3311.parrot;
 
-import com.CSE3311.parrot.notification_class;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -13,12 +11,8 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,8 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -35,11 +27,9 @@ import android.widget.Toast;
 import com.CSE3311.parrot.Models.Expense;
 import com.CSE3311.parrot.Models.Income;
 import com.CSE3311.parrot.Models.User;
-import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import java.sql.Time;
 import java.util.Calendar;
 
 public class CreateEntry extends AppCompatActivity {
@@ -216,6 +206,13 @@ public class CreateEntry extends AppCompatActivity {
                     notificationDate.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            // alarm manager
+                            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                            long timeAtButtonClick = System.currentTimeMillis();
+                            long subscriptionTypeInMillis;
+                            Intent intent = new Intent(CreateEntry.this, Receiver.class);
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(CreateEntry.this, 0, intent, 0);
+
                             final Calendar cldr = Calendar.getInstance();
                             int day = cldr.get(Calendar.DAY_OF_MONTH);
                             int month = cldr.get(Calendar.MONTH);
@@ -234,10 +231,14 @@ public class CreateEntry extends AppCompatActivity {
                                 notificationDateDialog.setTitle("Please Select the day for a reminder");
                                 notificationDateDialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
                                 notificationDateDialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis() + 518400000);
+                                subscriptionTypeInMillis = 518400000;
+                                alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtButtonClick + subscriptionTypeInMillis, pendingIntent);
                             } else if (subscriptionType.getSelectedItem().equals("Bi-Weekly")) {
                                 notificationDateDialog.setTitle("Please Select the date for a reminder");
                                 notificationDateDialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
                                 notificationDateDialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis() + 1123200000);
+                                subscriptionTypeInMillis = 1123200000;
+                                alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtButtonClick + subscriptionTypeInMillis, pendingIntent);
                             } else if (subscriptionType.getSelectedItem().equals("Monthly")) {
                                 notificationDateDialog.setTitle("Please Select the date for a reminder");
                             }
@@ -327,29 +328,12 @@ public class CreateEntry extends AppCompatActivity {
                             .setSmallIcon(R.drawable.ic_parrot_logo)
                             .setContentTitle("Parrot")
                             .setContentText("You have successfully created an entry!")
-                            .setStyle(new NotificationCompat.BigTextStyle()
-                                    .bigText("Your subscription is due next month"))
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                             .setAutoCancel(true)
                             .build();
 
                     notificationManager.notify(1, builder);
-
-                    //Toast.makeText(getApplicationContext(), "Reminder Set!", Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(CreateEntry.this, Receiver.class);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(CreateEntry.this, 0, intent, 0);
-
-                    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-                    long timeAtButtonClick = System.currentTimeMillis();
-
-                    long tenSecondsInMillis = 1000 * 10;
-                    // ten seconds
-
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtButtonClick + tenSecondsInMillis, pendingIntent);
-
 
                     Toast.makeText(getApplicationContext(), "Create Entry Successful!", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(CreateEntry.this, MainActivity.class));

@@ -13,16 +13,13 @@ public class Receiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CreateEntry.channel_id)
                 .setSmallIcon(R.drawable.ic_parrot_logo)
-                .setContentTitle("Remind Me")
-                .setContentText("HI")
+                .setContentTitle("Parrot")
+                .setContentText("Your payment is due")
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
         notificationManager.notify(1, builder.build());
-
-
-
     }
 }
 
