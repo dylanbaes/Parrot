@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ public class updateExpense extends AppCompatActivity {
     private TextView expenseTitleTv;
     private ArrayList<Expense> expenses;
     private User userInfo;
+    private expenseAdapter.RecyclerViewClickListener listener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,10 +66,23 @@ public class updateExpense extends AppCompatActivity {
 
     }
     private void setAdapter(){
-        expenseAdapter adapter = new expenseAdapter(expenses);
+        setOnClickListener();
+        expenseAdapter adapter = new expenseAdapter(expenses, listener);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         expenseRv.setLayoutManager(layoutManager);
         expenseRv.setItemAnimator(new DefaultItemAnimator());
         expenseRv.setAdapter(adapter);
+    }
+
+    private void setOnClickListener() {
+        listener = new expenseAdapter.RecyclerViewClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                Intent intent = new Intent(getApplicationContext(), ViewExpense.class);
+                intent.putExtra("uuid", expenses.get(position).getUuid());
+                intent.putExtra("expenses", expenses);
+                startActivity(intent);
+            }
+        };
     }
 }

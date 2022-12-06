@@ -3,10 +3,11 @@ package com.CSE3311.parrot.Models;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-public class Expense {
+public class Expense implements Serializable {
     private String categoryName;
     private String description;
     private String paymentType;

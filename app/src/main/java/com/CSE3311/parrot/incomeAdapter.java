@@ -16,17 +16,25 @@ import java.util.ArrayList;
 public class incomeAdapter extends RecyclerView.Adapter <incomeAdapter.MyViewHolder>{
 
     private ArrayList<Income> income;
+    private expenseAdapter.RecyclerViewClickListener listener;
 
-    incomeAdapter(ArrayList<Income> income) {
+    incomeAdapter(ArrayList<Income> income, expenseAdapter.RecyclerViewClickListener listener) {
         this.income = income;
+        this.listener = listener;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView entryText;
 
         public MyViewHolder(final View view) {
             super(view);
             entryText = view.findViewById(R.id.nestedItemTv);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onClick(view, getAdapterPosition());
         }
     }
 
@@ -47,5 +55,9 @@ public class incomeAdapter extends RecyclerView.Adapter <incomeAdapter.MyViewHol
     @Override
     public int getItemCount() {
         return income.size();
+    }
+
+    public interface RecyclerViewClickListener{
+        void onClick(View v, int position);
     }
 }

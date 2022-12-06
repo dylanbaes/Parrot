@@ -31,6 +31,8 @@
         <activity
             android:name=".updateIncome"
             android:exported="true" />
+        <activity android:name=".ViewExpense"/>
+        <activity android:name=".ViewIncome"/>
         <activity
             android:name=".MainActivity"
             android:exported="true" />

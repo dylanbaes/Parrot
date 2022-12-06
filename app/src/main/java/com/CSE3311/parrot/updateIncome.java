@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ public class updateIncome extends AppCompatActivity {
     private TextView incomeTitleTv;
     private ArrayList<Income> income;
     private User userInfo;
+    private expenseAdapter.RecyclerViewClickListener listener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,10 +70,23 @@ public class updateIncome extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        incomeAdapter adapter = new incomeAdapter(income);
+        setOnClickListener();
+        incomeAdapter adapter = new incomeAdapter(income, listener);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         incomeRv.setLayoutManager(layoutManager);
         incomeRv.setItemAnimator(new DefaultItemAnimator());
         incomeRv.setAdapter(adapter);
+    }
+
+    private void setOnClickListener() {
+        listener = new expenseAdapter.RecyclerViewClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                Intent intent = new Intent(getApplicationContext(), ViewIncome.class);
+                intent.putExtra("incomeName", income.get(position).getIncomeName());
+                intent.putExtra("income", income);
+                startActivity(intent);
+            }
+        };
     }
 }
