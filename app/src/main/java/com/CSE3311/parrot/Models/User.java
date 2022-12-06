@@ -15,6 +15,7 @@ import org.json.JSONArray;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -80,27 +81,24 @@ public class User extends ParseObject {
         this.saveInBackground();
     }
 
-    public ArrayList<Income> deleteIncome(ArrayList<Income> objects) {
+    public ArrayList<Income> deleteIncome(Income income) {
         Gson gson = new Gson();
-        ArrayList<Map> toDelete = new ArrayList<>();
-        for (Income income :objects){
-            toDelete.add(gson.fromJson(gson.toJson(income),Map.class));
+        List<Map> rawIncomes = getList("incomes");
+        if (rawIncomes!=null && rawIncomes.contains(gson.fromJson(gson.toJson(income), Map.class))){
+            rawIncomes.remove(gson.fromJson(gson.toJson(income), Map.class));
+            put("incomes",rawIncomes);
+            saveInBackground();
         }
-        this.removeAll("incomes",toDelete);
-        this.saveInBackground();
         return this.getIncomeLists();
     }
 
     public ArrayList<Income> updateIncome(Income updatedIncome){
-        ArrayList<Income> toUpdateIncomes = new ArrayList<>();
-        // find the income to be updated based on it uuid
-        for (Income inc: this.getIncomeLists()){
-            if (inc.getUuid().equals(updatedIncome.getUuid())) {
-                toUpdateIncomes.add(updatedIncome);
+        for (Income inc:this.getIncomeLists()){
+            if (inc.getUuid().equals(updatedIncome.getUuid())){
+                this.deleteIncome(inc);
                 break;
             }
         }
-        this.deleteIncome(toUpdateIncomes);
         this.addIncome(updatedIncome);
         return this.getIncomeLists();
     };
@@ -123,27 +121,25 @@ public class User extends ParseObject {
     }
 
     public ArrayList<Expense> updateExpense(Expense updatedExpense){
-        ArrayList<Expense> toUpdateExpense = new ArrayList<>();
-        // find the income to be updated based on it uuid
-        for (Expense exp: this.getExpenseLists()){
-            if (exp.getUuid().equals(updatedExpense.getUuid())) {
-                toUpdateExpense.add(updatedExpense);
+        for (Expense exp:this.getExpenseLists()){
+            if (exp.getUuid().equals(updatedExpense.getUuid())){
+                this.deleteExpense(exp);
                 break;
             }
         }
-        this.deleteExpense(toUpdateExpense);
         this.addExpense(updatedExpense);
         return this.getExpenseLists();
     };
 
-    public ArrayList<Expense> deleteExpense(ArrayList<Expense> objects) {
+    public ArrayList<Expense> deleteExpense(Expense expense) {
         Gson gson = new Gson();
-        ArrayList<Map> toDelete = new ArrayList<>();
-        for (Expense expense :objects){
-            toDelete.add(gson.fromJson(gson.toJson(expense),Map.class));
+
+        List<Map> rawExpenses = getList("expenses");
+        if (rawExpenses!=null && rawExpenses.contains(gson.fromJson(gson.toJson(expense), Map.class))){
+            rawExpenses.remove(gson.fromJson(gson.toJson(expense), Map.class));
+            put("expenses",rawExpenses);
+            saveInBackground();
         }
-        this.removeAll("expenses",toDelete);
-        this.saveInBackground();
         return this.getExpenseLists();
     }
 }
