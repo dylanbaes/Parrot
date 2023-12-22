@@ -48,8 +48,11 @@ Here are three different screens from creating an expense, the expense being dis
 ![image](https://github.com/dylanbaes/Parrot/assets/77146078/42f105e9-ceca-48c4-bac8-8cb0dd1134cc)
 
 
+
+
 Note that from the homepage pie chart, the user can tap on the portion that they want more information about and Parrot will open up a nested pie chart that gives more detailed information about the statistics.
 In this picture, tapping on the bills portion on the left image leads to the right image which shows the user more information about their bills.
+
 ![image](https://github.com/dylanbaes/Parrot/assets/77146078/b59e3b58-9a05-42bc-b48e-57abc3e1368d)
 
 
