@@ -9,10 +9,6 @@ Parrot is an Android application that helps users manage their budget. From trac
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
 
 ## About
 
