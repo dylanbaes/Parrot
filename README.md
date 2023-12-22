@@ -43,6 +43,8 @@ Adding your salary/income
 
 You now have a new account and want to enter how much you earn. At the bottom of the screen, you are given an option to add an entry, tap on it, and tap on new income. You will now be greeted with text fields and choices that are needed to generate your income within the Parrot database. Parrot gives you a choice to enter your weekly, bi-weekly, monthly, or annual income. Once all fields are satisfied, tap on “Add New Income”. Your new income will now be displayed in your budget chart. This is just a option, if the user doesn’t want to share their income. Then the chart will just show them how much they are spending and not how much they will have left over. 
 
+Here are three different screens from creating an expense, the expense being displayed, and the user being notified of when the expense will be applied on their account (from left to right).
+
 ![image](https://github.com/dylanbaes/Parrot/assets/77146078/42f105e9-ceca-48c4-bac8-8cb0dd1134cc)
 
 
