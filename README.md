@@ -37,7 +37,8 @@ Creating an Account
 
 Once Parrot is opened, the user will be greeted with a log in screen. Tap on the “Sign Up” button below the “Sign In” bar. Parrot will then navigate the user to the create account page where the user will be prompted to enter their first name, last name, email address, and password. After all fields are satisfied, tap on “Sign Up”, and Parrot will navigate the user to their new account’s front page. Note that every box must have an entry when signing up. It would then send the user an email telling you that an account needs to be verified before being able to login. Once the email is verified then the user would be able to login, if not then it will block the user account until otherwise. If the user already has an account, the user can click the cancel button which leads the user back to the login screen.
 
-![Creating Account/Logging In](https://imgur.com/a/vvV9xGQ)
+![image](https://github.com/dylanbaes/Parrot/assets/77146078/5c90ff85-28a3-457d-b4de-f3bc04b18834)
+
 
 Adding your salary/income
 
